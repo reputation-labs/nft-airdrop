@@ -20,7 +20,7 @@ import {
 } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 // import Hints from "./Hints";
-import { ExampleUI, Hints, Subgraph } from "./views";
+import { ExampleUI, Hints, Subgraph,MyNFT } from "./views";
 
 // contracts
 import deployedContracts from "./contracts/hardhat_contracts.json";
@@ -442,6 +442,16 @@ function App(props) {
       {networkDisplay}
       <BrowserRouter>
         <Menu style={{ textAlign: "center" }} selectedKeys={[route]} mode="horizontal">
+        <Menu.Item key="/MyNFT">
+            <Link
+              onClick={() => {
+                setRoute("/MyNFT");
+              }}
+              to="/MyNFT"
+            >
+              MyNFT
+            </Link>
+          </Menu.Item>
           <Menu.Item key="/">
             <Link
               onClick={() => {
@@ -452,6 +462,7 @@ function App(props) {
               YourContract
             </Link>
           </Menu.Item>
+          
           <Menu.Item key="/hints">
             <Link
               onClick={() => {
@@ -492,16 +503,17 @@ function App(props) {
               Subgraph
             </Link>
           </Menu.Item>
+          
         </Menu>
 
         <Switch>
-          <Route exact path="/">
-            {/*
-                🎛 this scaffolding is full of commonly used components
-                this <Contract/> component will automatically parse your ABI
-                and give you a form to interact with it locally
-            */}
-
+        <Route path="/MyNFT">
+            <MyNFT
+            address={address}
+            purpose={purpose}
+          />
+           </Route>
+          <Route>
             <Contract
               name="YourContract"
               price={price}
