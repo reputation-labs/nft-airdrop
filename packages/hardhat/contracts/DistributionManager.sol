@@ -11,6 +11,7 @@ contract DistributionManager {
     mapping (address => address) public campaignToUser;
 
     uint public commonNFTAmount;
+    uint public lootboxAmount;
 
     function launchCampaignCommonNFT(params) {
         CommonNFT newCampaign = new CommonNFT{salt: keccak256(abi.encode(msg.sender, commonNFTAmount))}(
