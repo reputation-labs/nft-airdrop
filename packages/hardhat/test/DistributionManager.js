@@ -17,6 +17,27 @@ describe("DistributionManager contract", function () {
       DistributionManagerContract,
       []
     );
+
+    const CommonNFTFactoryContract = await ethers.getContractFactory(
+      "CommonNFTFactory"
+    );
+
+    const CommonNFTFactory = await upgrades.deployProxy(
+      CommonNFTFactoryContract,
+      []
+    );
+
+    const LootboxFactoryContract = await ethers.getContractFactory(
+      "LootboxFactory"
+    );
+
+    const LootboxFactory = await upgrades.deployProxy(
+      LootboxFactoryContract,
+      []
+    );
+
+    await DistributionManager.setCommonNFTFactory(CommonNFTFactory.address);
+    await DistributionManager.setLootboxFactory(LootboxFactory.address);
   });
 
   it("get initial state", async function () {

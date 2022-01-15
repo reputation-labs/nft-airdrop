@@ -237,6 +237,71 @@
       "address": "0xdbC43Ba45381e02825b14322cDdd15eC4B3164E6",
       "txHash": "0x7b77500f6a32a22246d4feb5395c105f7f15b045d2a96f8a92d84a67a8d4b42d",
       "kind": "transparent"
+    },
+    {
+      "address": "0x21dF544947ba3E8b3c32561399E88B52Dc8b2823",
+      "txHash": "0xe122ae707991300b387393ecaa02b221a460444f29f3249682eef236528f5660",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x2E2Ed0Cfd3AD2f1d34481277b3204d807Ca2F8c2",
+      "txHash": "0x287eb6436a72ab5385a026843bb719d8fe2d2823480577d3233ec7c8414346b5",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xDC11f7E700A4c898AE5CAddB1082cFfa76512aDD",
+      "txHash": "0x4170ba78b8d4cfbca6d2b0fda7fe091dedd5e3eda873014bf39ca6da2aadebec",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x36b58F5C1969B7b6591D752ea6F5486D069010AB",
+      "txHash": "0xfdf7708e7a40039a49a2813cfa517370b6c7204b67cb007e42db42742b04798a",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x8198f5d8F8CfFE8f9C413d98a0A55aEB8ab9FbB7",
+      "txHash": "0xbbeb8da9b98158542ee0926e634ccd385253eebf5f472001d579d8a4b7c137b7",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x0355B7B8cb128fA5692729Ab3AAa199C1753f726",
+      "txHash": "0xd040fa2996967d12e17ce9519873b5f7b042a1d16eb013d9d1a49723c648dab1",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8",
+      "txHash": "0x4a169889e742508f016796b66731960d52950669735f04e19f0356678630c8b9",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xBEc49fA140aCaA83533fB00A2BB19bDdd0290f25",
+      "txHash": "0x03503e5072272025feca23b0b0cc35ed17edb347cfd033af11469a1b55a99e5c",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xD84379CEae14AA33C123Af12424A37803F885889",
+      "txHash": "0x9fec73a549c770186745971cbf20b14b341c74f749c96d99b39e32201054678d",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x2B0d36FACD61B71CC05ab8F3D2355ec3631C0dd5",
+      "txHash": "0x8c70adeef15b8526fbe9fcec90cd539258f48dbdb41400cefca7faa9a0322be0",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xC9a43158891282A2B1475592D5719c001986Aaec",
+      "txHash": "0x5ffe94b4c391784a1cccad142d261e16282e9f13aea8f0bb148814e4eb88f1e8",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x1c85638e118b37167e9298c2268758e058DdfDA0",
+      "txHash": "0x1edfe114f99e01868b298d66f731b49c4c39090c177c20dfd10d80f6a17e0626",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb",
+      "txHash": "0x8b1f6bff1806df06d5ab442891467c94fe021b08e2612190449aa2fec4bd51f6",
+      "kind": "transparent"
     }
   ],
   "impls": {
@@ -738,6 +803,162 @@
             "label": "uint256"
           }
         }
+      }
+    },
+    "8c96a5f1fad91d44f4d654cb06b3109ae2da72ad414eb2ed6fee78b26bd8acfe": {
+      "address": "0x4C4a2f8c81640e47606d3fd77B353E87Ba015584",
+      "txHash": "0xe8fea8758a9dae01dbd191c297235f4ca199709b6dbfdb476b9c3b3c32f9458a",
+      "layout": {
+        "storage": [
+          {
+            "contract": "DistributionManager",
+            "label": "_campaigns",
+            "type": "t_array(t_address)dyn_storage",
+            "src": "contracts/DistributionManager.sol:7"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "userToCampaign",
+            "type": "t_mapping(t_address,t_array(t_address)dyn_storage)",
+            "src": "contracts/DistributionManager.sol:8"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "campaignToUser",
+            "type": "t_mapping(t_address,t_address)",
+            "src": "contracts/DistributionManager.sol:9"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "commonNFTAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:11"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "lootboxAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:12"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "commonNFTFactory",
+            "type": "t_contract(IDistributionFactory)178",
+            "src": "contracts/DistributionManager.sol:14"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "lootboxFactory",
+            "type": "t_contract(IDistributionFactory)178",
+            "src": "contracts/DistributionManager.sol:15"
+          }
+        ],
+        "types": {
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_address,t_array(t_address)dyn_storage)": {
+            "label": "mapping(address => address[])"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_contract(IDistributionFactory)178": {
+            "label": "contract IDistributionFactory"
+          }
+        }
+      }
+    },
+    "028e7354fa451a18117cf0976d175030fe2c0d5c5739a69c5ecb96197bb791e2": {
+      "address": "0xD8a5a9b31c3C0232E196d518E89Fd8bF83AcAd43",
+      "txHash": "0xf3dcacb3ad73903686d66d75678461c14153513d3cf24676c5382539401a276a",
+      "layout": {
+        "storage": [
+          {
+            "contract": "DistributionManager",
+            "label": "_campaigns",
+            "type": "t_array(t_address)dyn_storage",
+            "src": "contracts/DistributionManager.sol:7"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "userToCampaign",
+            "type": "t_mapping(t_address,t_array(t_address)dyn_storage)",
+            "src": "contracts/DistributionManager.sol:8"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "campaignToUser",
+            "type": "t_mapping(t_address,t_address)",
+            "src": "contracts/DistributionManager.sol:9"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "commonNFTAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:11"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "lootboxAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:12"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "commonNFTFactory",
+            "type": "t_contract(IDistributionFactory)226",
+            "src": "contracts/DistributionManager.sol:14"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "lootboxFactory",
+            "type": "t_contract(IDistributionFactory)226",
+            "src": "contracts/DistributionManager.sol:15"
+          }
+        ],
+        "types": {
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_address,t_array(t_address)dyn_storage)": {
+            "label": "mapping(address => address[])"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_contract(IDistributionFactory)226": {
+            "label": "contract IDistributionFactory"
+          }
+        }
+      }
+    },
+    "0c9c1698f2d54d944757045196f1926d885cf21d850faf4d1256538521825f43": {
+      "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02",
+      "txHash": "0xb8d889c6e9eb2d1dd15cb944492bccf4b95eec0805a8b512daa06d50ee03329b",
+      "layout": {
+        "storage": [],
+        "types": {}
+      }
+    },
+    "07785d9720ba15d32cc4b3a9c11d5a533968ef66aa9e745906d72b1a0c0487b1": {
+      "address": "0x202CCe504e04bEd6fC0521238dDf04Bc9E8E15aB",
+      "txHash": "0xfa9c75bd6e18b9da69fe2ab28d91e220a4263150d80dc4a54f4173855d0f9d17",
+      "layout": {
+        "storage": [],
+        "types": {}
       }
     }
   }
