@@ -14,6 +14,8 @@ contract DistributionManager {
     uint public lootboxAmount;
 
     function launchCampaignCommonNFT(params) {
+        commonNFTAmount = commonNFTAmount + 1;
+
         CommonNFT newCampaign = new CommonNFT{salt: keccak256(abi.encode(msg.sender, commonNFTAmount))}(
             // params
         );
@@ -22,6 +24,8 @@ contract DistributionManager {
     }
 
     function launchCampaignLootbox(params) {
+        lootboxAmount = lootboxAmount + 1;
+
         Lootbox newCampaign = new Lootbox{salt: keccak256(abi.encode(msg.sender, lootboxAmount))}(
             // params
         );
