@@ -35,6 +35,7 @@ contract CommonNFT is ERC1155Proxy {
         data = _data;
         currentCampaignId = 1;
         owner = msg.sender;
+        initialize(_data.tokenURI);
     }
 
     function getCampaign() public view returns (Campaign memory) {
@@ -44,7 +45,7 @@ contract CommonNFT is ERC1155Proxy {
         return owner;
     }
 
-    function isClaimable(address user) public view returns (bool) {
+    function isClaimable(address user) private view returns (bool) {
         for (uint index = 0; index < data.canMintErc721.length; index++) {
             uint balance = ERC721(data.canMintErc721[index]).balanceOf(user);
             if (balance > 0) {
@@ -56,26 +57,9 @@ contract CommonNFT is ERC1155Proxy {
 
     function claim() public returns (bool) {
         require(isClaimable(msg.sender), "You cannot claim this token");
-         ERC721 erc721;
-         ERC721Enumerable erc721Enumerable;
-         require(msg.sender == owner, "Only owner can call this function");
-
-         uint256 tokens = erc721.balanceOf(msg.sender);
-         console.log("tokens", tokens);
-
-        require(tokens > 0, "User don't have any tokens to mint");
-
-        uint8 i;
-
-        for (i = 0; i < tokens; i++) {
-            uint256 tokenId = erc721Enumerable.tokenOfOwnerByIndex(msg.sender,i);
-            if (msg.sender == erc721.ownerOf(tokenId)) {
-                ERC1155Proxy.mint(msg.sender, 1, 1, "");
-                return true;
-            }
-        }
-
-        return false;
+        
+        ERC1155Proxy.mint(msg.sender, 1, 1, "");
+        return true;
     }
 
     function _setTokenURI(uint256 baseId, string memory uri) private pure {}

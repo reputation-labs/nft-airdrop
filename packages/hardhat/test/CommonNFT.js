@@ -22,24 +22,25 @@ describe("CommonNFT", function () {
         appearance: 1,
         fightingPower: 1,
         level: 3,
-        canMint1155: ['0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000001'],
+        canMint1155: ['0x0000000000000000000000000000000000000123', '0x0000000000000000000000000000000000000001'],
         canMintErc721: ['0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000001']
       }
       nftContract = await _contract.deploy(campaign);
     });
 
-    describe("mintNFT()", function () {
-      it("Should mintNFT", async function () {
+    describe("CommontNFT ", function () {
+      it("getCurrentOwner", async function () {
         const owner = await nftContract.getCurrentOwner()
-        //console.log("owner", owner);
-
+        expect(owner).to.equal('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266');
+      });
+      it("getCampaign", async function () {
         const campaign = await nftContract.getCampaign();
-        //console.log("campaign:", campaign.level);
         expect(campaign.level).to.equal(3);
+      });
 
-        //const ret = await nftContract.mintNFT();
-        //console.log("mint:", ret);
-        //expect(await nftContract.getCampaign()).to.equal(campaign);
+      it("claim", async function () {
+        const ret = await nftContract.claim();
+        expect(ret).to.equal(true);
       });
     });
   });

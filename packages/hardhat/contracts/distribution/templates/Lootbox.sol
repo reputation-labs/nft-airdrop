@@ -8,9 +8,13 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "./CommonNFT.sol";
 
 contract Lootbox is ERC1155Proxy {
     using SafeMathUpgradeable for uint256;
+
+
+ using SafeMathUpgradeable for uint256;
 
     struct Campaign {
         string campaignName;
@@ -45,9 +49,7 @@ contract Lootbox is ERC1155Proxy {
         owner = msg.sender;
     }
 
-    function getCampaign() public view returns (Campaign memory) {
-        return data;
-    }
+   
     function getCurrentOwner() public view returns (address) {
         return owner;
     }
@@ -64,25 +66,8 @@ contract Lootbox is ERC1155Proxy {
 
     function claim() public returns (bool) {
         require(isClaimable(msg.sender), "You cannot claim this token");
-         ERC721 erc721;
-         ERC721Enumerable erc721Enumerable;
-         require(msg.sender == owner, "Only owner can call this function");
-
-         uint256 tokens = erc721.balanceOf(msg.sender);
-         console.log("tokens", tokens);
-
-        require(tokens > 0, "User don't have any tokens to mint");
-
-        uint8 i;
-
-        for (i = 0; i < tokens; i++) {
-            uint256 tokenId = erc721Enumerable.tokenOfOwnerByIndex(msg.sender,i);
-            if (msg.sender == erc721.ownerOf(tokenId)) {
-                ERC1155Proxy.mint(msg.sender, 1, 1, "");
-                return true;
-            }
-        }
-
+        
+        ERC1155Proxy.mint(msg.sender, 1, 1, "");
         return false;
     }
 
