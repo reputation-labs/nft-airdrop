@@ -1,49 +1,64 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.4;
 
-import "./distributionTemplates/CommonNFT.sol";
-import "./distributionTemplates/Lootbox.sol";
-import "hardhat/console.sol";
+import "./interfaces/IDistributionFactory.sol";
 
 contract DistributionManager {
-    address[] public campaigns;
+    address[] internal _campaigns;
     mapping (address => address[]) public userToCampaign;
     mapping (address => address) public campaignToUser;
 
     uint public commonNFTAmount;
     uint public lootboxAmount;
 
-    address public alice=0x0000000000000000000000000000000000000000;
-    // CommonNFT.Campaign  campaign;
-    // commonNFT.campaingName = "CommonNFT";
-    // commonNFT.tokenURI="ipfs://123";
-    // commonNFT.appearance=1;
-    // commonNFT.fightingPower=1;
-    // commonNFT.level=1;
-    // commonNFT.canMint={'0x0000000000000000000000000000000000000000','0x0000000000000000000000000000000000000001'};
 
-    function launchCampaignCommonNFT(
-        CommonNFT.Campaign memory campaign
-    ) external {
+
+    IDistributionFactory public commonNFTFactory;
+    IDistributionFactory public lootboxFactory;
+
+    function launchCampaignCommonNFT() external {
+        require(address(commonNFTFactory) != address(0), "CommonNFTFactory is not set");
+
         commonNFTAmount = commonNFTAmount + 1;
 
-        CommonNFT newCampaign = new CommonNFT{salt: keccak256(abi.encode(msg.sender, commonNFTAmount))}(campaign);
-
-
-        campaigns.push(address(newCampaign));
+        address newCampaign = commonNFTFactory.create(commonNFTAmount);
+        // CommonNFT(newCampaign).initialize("ipfs://");
+        _campaigns.push(address(newCampaign));
+        
         userToCampaign[msg.sender].push(address(newCampaign));
         campaignToUser[address(newCampaign)] = msg.sender;
     }
 
     function launchCampaignLootbox() external {
+        require(address(lootboxFactory) != address(0), "LootboxFactory is not set");
+
         lootboxAmount = lootboxAmount + 1;
 
-        Lootbox newCampaign = new Lootbox{salt: keccak256(abi.encode(msg.sender, lootboxAmount))}(
-            // params
-        );
-        campaigns.push(address(newCampaign));
+        address newCampaign = lootboxFactory.create(lootboxAmount);
+
+        _campaigns.push(address(newCampaign));
         userToCampaign[msg.sender].push(address(newCampaign));
         campaignToUser[address(newCampaign)] = msg.sender;
+    }
+
+    function setCommonNFTFactory(IDistributionFactory _commonNFTFactory) external {
+        require(address(_commonNFTFactory) != address(0), "CommonNFTFactory should not be 0 address");
+
+        commonNFTFactory = _commonNFTFactory;
+    }
+
+    function setLootboxFactory(IDistributionFactory _lootboxFactory) external {
+        require(address(_lootboxFactory) != address(0), "LootboxFactory should not be 0 address");
+
+        lootboxFactory = _lootboxFactory;
+    }
+
+    function campaigns() public view returns (address[] memory) {
+        return _campaigns;
+    }
+
+    function userCampaigns(address user) public view returns (address[] memory) {
+        return userToCampaign[user];
     }
 }
 
