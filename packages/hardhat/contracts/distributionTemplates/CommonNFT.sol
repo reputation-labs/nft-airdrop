@@ -38,18 +38,24 @@ contract CommonNFT is ERC1155Proxy {
     }
 
     function getCampaign() public view returns (Campaign memory) {
-        require(msg.sender == owner, "Only owner can call this function");
         return data;
     }
     function getCurrentOwner() public view returns (address) {
         return owner;
     }
 
-    function claimNFT(address _to, uint256 _amount) public {
-        //TODO: check if _to is not null
+    function isClaimable(address user) public view returns (bool) {
+        for (uint index = 0; index < canMintErc721.length; index++) {
+            uint balance = ERC721(canMintErc721[index]).balanceOf(user);
+            if (balance > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    function mintNFT() public returns (bool) {
+    function claim() public returns (bool) {
+        require(isClaimable(msg.sender), "You cannot claim this token");
          ERC721 erc721;
          ERC721Enumerable erc721Enumerable;
          require(msg.sender == owner, "Only owner can call this function");
