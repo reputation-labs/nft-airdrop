@@ -61,7 +61,7 @@ describe("DistributionManager contract", function () {
     expect(campaigns.length).to.equal(1);
     expect(userCampaigns.length).to.equal(1);
     expect(userCampaigns[0]).to.equal(campaigns[0]);
-
+    expect(campaigns[0]).not.to.equal("");
     const campaignContract = await ethers.getContractAt(
       "CommonNFT",
       campaigns[0]
