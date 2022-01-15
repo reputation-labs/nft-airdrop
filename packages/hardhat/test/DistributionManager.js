@@ -51,7 +51,11 @@ describe("DistributionManager contract", function () {
   });
 
   it("create a campaign", async function () {
-    await DistributionManager.launchCampaignCommonNFT();
+    await DistributionManager.launchCampaignCommonNFT(
+      "Common NFT Campaign",
+      "ipfs://...",
+      1, 1, 4, ['0x0000000000000000000000000000000000000001'],
+    );
 
     const campaigns = await DistributionManager.campaigns();
     const userCampaigns = await DistributionManager.userCampaigns(

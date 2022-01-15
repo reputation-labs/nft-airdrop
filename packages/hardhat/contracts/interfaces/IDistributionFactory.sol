@@ -8,5 +8,11 @@ pragma solidity 0.8.4;
 /// @dev This contract exists solely to decrease the size of the deployed SeriesController
 /// bytecode so it can be lower than the Spurious Dragon bytecode size limit
 interface IDistributionFactory {
-    function create(uint256 index) external returns (address);
+    function create(uint256 index,
+        string memory campaignName,
+        string memory tokenURI,
+        uint8 appearance,
+        uint8 fightingPower,
+        uint8 level,
+        address[] memory canMintErc721) external returns (address);
 }
