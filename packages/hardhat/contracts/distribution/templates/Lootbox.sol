@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.4;
 
-import "../ERC1155Proxy.sol";
-import "../interfaces/IERC1155Proxy.sol";
+import "../../ERC1155Proxy.sol";
+import "../../interfaces/IERC1155Proxy.sol";
 import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -53,8 +53,8 @@ contract Lootbox is ERC1155Proxy {
     }
 
     function isClaimable(address user) public view returns (bool) {
-        for (uint index = 0; index < canMintErc721.length; index++) {
-            uint balance = ERC721(canMintErc721[index]).balanceOf(user);
+        for (uint index = 0; index < data.canMintErc721.length; index++) {
+            uint balance = ERC721(data.canMintErc721[index]).balanceOf(user);
             if (balance > 0) {
                 return true;
             }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.4;
 
-import "../distributionTemplates/Lootbox.sol";
+import "../templates/Lootbox.sol";
 
 contract LootboxFactory {
     function create(uint index) external returns(address) {

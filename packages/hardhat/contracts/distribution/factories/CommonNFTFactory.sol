@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.4;
 
-import "../distributionTemplates/CommonNFT.sol";
+import "../templates/CommonNFT.sol";
 
 contract CommonNFTFactory {
     function create(uint index) external returns(address) {
