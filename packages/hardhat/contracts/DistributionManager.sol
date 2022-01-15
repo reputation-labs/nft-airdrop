@@ -13,12 +13,23 @@ contract DistributionManager {
     uint public commonNFTAmount;
     uint public lootboxAmount;
 
-    function launchCampaignCommonNFT() external {
+    address public alice=0x0000000000000000000000000000000000000000;
+    // CommonNFT.Campaign  campaign;
+    // commonNFT.campaingName = "CommonNFT";
+    // commonNFT.tokenURI="ipfs://123";
+    // commonNFT.appearance=1;
+    // commonNFT.fightingPower=1;
+    // commonNFT.level=1;
+    // commonNFT.canMint={'0x0000000000000000000000000000000000000000','0x0000000000000000000000000000000000000001'};
+
+    function launchCampaignCommonNFT(
+        CommonNFT.Campaign memory campaign
+    ) external {
         commonNFTAmount = commonNFTAmount + 1;
 
-        CommonNFT newCampaign = new CommonNFT{salt: keccak256(abi.encode(msg.sender, commonNFTAmount))}(
-            // params
-        );
+        CommonNFT newCampaign = new CommonNFT{salt: keccak256(abi.encode(msg.sender, commonNFTAmount))}(campaign);
+
+
         campaigns.push(address(newCampaign));
         userToCampaign[msg.sender].push(address(newCampaign));
         campaignToUser[address(newCampaign)] = msg.sender;
