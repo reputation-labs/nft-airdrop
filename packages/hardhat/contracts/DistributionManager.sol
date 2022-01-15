@@ -13,27 +13,26 @@ contract DistributionManager {
     uint public commonNFTAmount;
     uint public lootboxAmount;
 
-    function launchCampaignCommonNFT(params) {
+    function launchCampaignCommonNFT() external {
         commonNFTAmount = commonNFTAmount + 1;
 
         CommonNFT newCampaign = new CommonNFT{salt: keccak256(abi.encode(msg.sender, commonNFTAmount))}(
             // params
         );
-        campaigns.push(newCampaign);
-
+        campaigns.push(address(newCampaign));
+        userToCampaign[msg.sender].push(address(newCampaign));
+        campaignToUser[address(newCampaign)] = msg.sender;
     }
 
-    function launchCampaignLootbox(params) {
+    function launchCampaignLootbox() external {
         lootboxAmount = lootboxAmount + 1;
 
         Lootbox newCampaign = new Lootbox{salt: keccak256(abi.encode(msg.sender, lootboxAmount))}(
             // params
         );
-        campaigns.push(newCampaign);
-    }
-
-    function getCampaigns() public view returns (address[]) {
-        return campaigns;
+        campaigns.push(address(newCampaign));
+        userToCampaign[msg.sender].push(address(newCampaign));
+        campaignToUser[address(newCampaign)] = msg.sender;
     }
 }
 
