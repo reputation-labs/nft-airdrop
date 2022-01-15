@@ -102,6 +102,101 @@
       "address": "0x09635F643e140090A9A8Dcd712eD6285858ceBef",
       "txHash": "0x0bec91cde16670289f7f1620e533f35d7ba7db3739ae86bdfa450f1c0e4705c7",
       "kind": "transparent"
+    },
+    {
+      "address": "0xc3e53F4d16Ae77Db1c982e75a937B9f60FE63690",
+      "txHash": "0x83fc2843e73b8c36f4150449fede471378548ee20f8380dd335fe16aceb63a01",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x9E545E3C0baAB3E08CdfD552C960A1050f373042",
+      "txHash": "0x0ec08e0ac33f3ad4eac0aff4ef7c1876fc9051ac1bf215e28a0599570ae9ab3f",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9",
+      "txHash": "0xec7591e1b39415813dad7af5afeb121cbe5086443ed373e093c3d9940eaf78a8",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8",
+      "txHash": "0x2e808dd4640accc57021e3f5e0f6464afa5ab2d11181ed573f782e282ac4d937",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x851356ae760d987E095750cCeb3bC6014560891C",
+      "txHash": "0x27adefac5bde15022a8b5b58685778627a9fc4e055022542f6f7aaa3dbada0af",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x95401dc811bb5740090279Ba06cfA8fcF6113778",
+      "txHash": "0x9ca75c899762b0e3e46f5e9a18bbe8f83718b32d932dc739f387dd748b7ecd3a",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x998abeb3E57409262aE5b751f60747921B33613E",
+      "txHash": "0x2460decd6d7bdb3c61cd67ed0bb2b71982e4677a152881a5d26625b21a9d5739",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x70e0bA845a1A0F2DA3359C97E0285013525FFC49",
+      "txHash": "0x7cfee82ad255a693848498b5a6d5de61880d1b1b1957e3cfce6f6a7c65912b47",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x4826533B4897376654Bb4d4AD88B7faFD0C98528",
+      "txHash": "0xcfec5873fce8a70351cd2c038d7fadaa35c310399cd767473d6930511c014565",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x99bbA657f2BbC93c02D617f8bA121cB8Fc104Acf",
+      "txHash": "0xa485037d3af1fa8d6602bb0c3a83c75004c4dedc47da1fd95bf1786e0c4a588c",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x0E801D84Fa97b50751Dbf25036d067dCf18858bF",
+      "txHash": "0xa396e74849e24202f1e123aa2776cd508fe4a15e2f8e6c53c26f41f17c97271e",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x9d4454B023096f34B160D6B654540c56A1F81688",
+      "txHash": "0x95895d122c7bac7cc488fc1c85654708ff66afe23836cda80e26074296c9168b",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x5eb3Bc0a489C5A8288765d2336659EbCA68FCd00",
+      "txHash": "0x775280e82755432bd0b84ae19cbd5ce5654ded506efdd80f25b530d2844094c3",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x36C02dA8a0983159322a80FFE9F24b1acfF8B570",
+      "txHash": "0xc30f2d5dba897a0b86476802915d7d812346b6950f057e28bb10ac3890b639de",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x4c5859f0F772848b2D91F1D83E2Fe57935348029",
+      "txHash": "0x182bf4dc6a375bba82b5836fe519a64b889ef6fad5ca933a362ddb38f3df3cff",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x1291Be112d480055DaFd8a610b7d1e203891C274",
+      "txHash": "0xa6592a8850da0756e9d8fc4cbde81e4e9d5fe51badc60ca5927983e8bc124889",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xCD8a1C3ba11CF5ECfa6267617243239504a98d90",
+      "txHash": "0x1092175dfa4cf9b1ef0385bcdcebd2b3da1ec496c125f06c14c879b743020313",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x82e01223d51Eb87e16A03E24687EDF0F294da6f1",
+      "txHash": "0x429c404957e8feb89ff04ea492d3ecbf4a10e390e3bba99d784fbf00954da81c",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x2bdCC0de6bE1f7D2ee689a0342D76F52E8EFABa3",
+      "txHash": "0x61a69c4f4d836e7bd143b21ba28525a4dc206b86e8bc84ea72cf345c35b3c0de",
+      "kind": "transparent"
     }
   ],
   "impls": {
@@ -326,6 +421,281 @@
                 "type": "t_bytes32"
               }
             ]
+          }
+        }
+      }
+    },
+    "51b22eb8d6edcafe884ef4f802dae6edea8da7bc5c893f02d8551914fca49d84": {
+      "address": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E",
+      "txHash": "0x60b14c449a558ec8c0a9db151e6c2c46a32cbac9a6d80acd94039d82811360e1",
+      "layout": {
+        "storage": [
+          {
+            "contract": "DistributionManager",
+            "label": "campaigns",
+            "type": "t_array(t_address)dyn_storage",
+            "src": "contracts/DistributionManager.sol:8"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "userToCampaign",
+            "type": "t_mapping(t_address,t_array(t_address)dyn_storage)",
+            "src": "contracts/DistributionManager.sol:9"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "campaignToUser",
+            "type": "t_mapping(t_address,t_address)",
+            "src": "contracts/DistributionManager.sol:10"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "commonNFTAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:12"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "lootboxAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:13"
+          }
+        ],
+        "types": {
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_address,t_array(t_address)dyn_storage)": {
+            "label": "mapping(address => address[])"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          }
+        }
+      }
+    },
+    "3d97cd06dce2a15ff573e2a7c3dfe917484d76f62607a14b809174bc2b451a7d": {
+      "address": "0x84eA74d481Ee0A5332c457a4d796187F6Ba67fEB",
+      "txHash": "0xcaaa936690edadf4945babb64b39dcf1fd24dfaf9f0411e8bd4e5ff92a17976b",
+      "layout": {
+        "storage": [
+          {
+            "contract": "DistributionManager",
+            "label": "campaigns",
+            "type": "t_array(t_address)dyn_storage",
+            "src": "contracts/DistributionManager.sol:8"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "userToCampaign",
+            "type": "t_mapping(t_address,t_array(t_address)dyn_storage)",
+            "src": "contracts/DistributionManager.sol:9"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "campaignToUser",
+            "type": "t_mapping(t_address,t_address)",
+            "src": "contracts/DistributionManager.sol:10"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "commonNFTAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:12"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "lootboxAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:13"
+          }
+        ],
+        "types": {
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_address,t_array(t_address)dyn_storage)": {
+            "label": "mapping(address => address[])"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          }
+        }
+      }
+    },
+    "4aec2f9eca3a31834b19cb4438c2487ef37ef60e69e03f6e4477ac86d2347c2f": {
+      "address": "0xf5059a5D33d5853360D16C683c16e67980206f36",
+      "txHash": "0x007d49198b994d341a0d872a1b4ada0da6ea384587c84acb89daa6f14962f9b8",
+      "layout": {
+        "storage": [
+          {
+            "contract": "DistributionManager",
+            "label": "_campaigns",
+            "type": "t_array(t_address)dyn_storage",
+            "src": "contracts/DistributionManager.sol:8"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "userToCampaign",
+            "type": "t_mapping(t_address,t_array(t_address)dyn_storage)",
+            "src": "contracts/DistributionManager.sol:9"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "campaignToUser",
+            "type": "t_mapping(t_address,t_address)",
+            "src": "contracts/DistributionManager.sol:10"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "commonNFTAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:12"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "lootboxAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:13"
+          }
+        ],
+        "types": {
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_address,t_array(t_address)dyn_storage)": {
+            "label": "mapping(address => address[])"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          }
+        }
+      }
+    },
+    "6c6035dbaad19da427714a87a4726c46371eac8143c20aa1e36d42849886f69f": {
+      "address": "0x8f86403A4DE0BB5791fa46B8e795C547942fE4Cf",
+      "txHash": "0x9fe526b6b46fad616e01fdb1267873d0d1c48bb307d3b20adc4d95c75c8e2c3f",
+      "layout": {
+        "storage": [
+          {
+            "contract": "DistributionManager",
+            "label": "_campaigns",
+            "type": "t_array(t_address)dyn_storage",
+            "src": "contracts/DistributionManager.sol:8"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "userToCampaign",
+            "type": "t_mapping(t_address,t_array(t_address)dyn_storage)",
+            "src": "contracts/DistributionManager.sol:9"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "campaignToUser",
+            "type": "t_mapping(t_address,t_address)",
+            "src": "contracts/DistributionManager.sol:10"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "commonNFTAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:12"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "lootboxAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:13"
+          }
+        ],
+        "types": {
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_address,t_array(t_address)dyn_storage)": {
+            "label": "mapping(address => address[])"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          }
+        }
+      }
+    },
+    "2bbf45c4fd95fc15f55aff2b08f9cd6df80a04f8595c3d4bad0a19f962ef6382": {
+      "address": "0xb7278A61aa25c888815aFC32Ad3cC52fF24fE575",
+      "txHash": "0x58758867f8cc4060d9e39c2b312f67cc64c8da2f1b400b8365a236191f7c8a0b",
+      "layout": {
+        "storage": [
+          {
+            "contract": "DistributionManager",
+            "label": "_campaigns",
+            "type": "t_array(t_address)dyn_storage",
+            "src": "contracts/DistributionManager.sol:8"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "userToCampaign",
+            "type": "t_mapping(t_address,t_array(t_address)dyn_storage)",
+            "src": "contracts/DistributionManager.sol:9"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "campaignToUser",
+            "type": "t_mapping(t_address,t_address)",
+            "src": "contracts/DistributionManager.sol:10"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "commonNFTAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:12"
+          },
+          {
+            "contract": "DistributionManager",
+            "label": "lootboxAmount",
+            "type": "t_uint256",
+            "src": "contracts/DistributionManager.sol:13"
+          }
+        ],
+        "types": {
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_address,t_array(t_address)dyn_storage)": {
+            "label": "mapping(address => address[])"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)"
+          },
+          "t_uint256": {
+            "label": "uint256"
           }
         }
       }
