@@ -29,12 +29,16 @@ contract Lootbox is CommonNFT{
     function claim(address user) public override returns (bool) {
         require(isClaimable(user), "You cannot claim this token");
 
+        require(campaign.appearance > 1, "appearance must be greater than 1");
+        require(campaign.fightingPower > 1, "fightingPower must be greater than 1");
+        require(campaign.level > 1, "level must be greater than 1");
+
         uint id = getNextId();
 
         Metadata memory metadata;
-        metadata.appearance = randomRange(1,9);
-        metadata.fightingPower = randomRange(1,9);
-        metadata.level = randomRange(1,9);
+        metadata.appearance = randomRange(1,campaign.appearance);
+        metadata.fightingPower = randomRange(1,campaign.fightingPower);
+        metadata.level = randomRange(1,campaign.level);
 
         idToMetadata[id]= metadata;
 
