@@ -32,26 +32,40 @@ export default function ClaimNft({ address, tx, readContracts, writeContracts })
   // Get a list of tokens from a tokenlist -> see tokenlists.org!
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [campaigns, setCampaigns] = useState([]);
+  const [campaignsInfo, setCampaignsInfo] = useState([]);
 
-  let campaigns = [];
-  let campaignsInfo = [];
+  //   appearance,
+  // campaignName,
+  // canMintErc721,
+  // endTime,
+  // fightingPower,
+  // level,
+  // tokenURI
+  useEffect(() => {
+    if (!readContracts?.DistributionManager || !readContracts?.Controller) return;
 
-  useEffect(async () => {
-    campaigns = await readContracts?.DistributionManager?.campaigns();
-    campaigns?.forEach(async nftContract => {
-      const campaign = await readContracts?.controller?.getCampaign(nftContract);
-      campaignsInfo.push(campaign);
-    });
-  });
+    (async () => {
+      const campaigns = await readContracts?.DistributionManager?.campaigns();
+      const infos = await Promise.all(
+        campaigns?.map(nftContract => {
+          return readContracts?.Controller?.getCampaign(nftContract);
+        }),
+      );
+
+      setCampaigns(campaigns);
+      setCampaignsInfo(infos);
+    })();
+  }, []);
 
   const handleClaim = async i => {
     const nftContract = campaigns[i];
-    const isClaimable = await readContracts?.controller?.isClaimable(nftContract, address);
+    const isClaimable = await readContracts?.Controller?.isClaimable(nftContract, address);
     if (isClaimable) {
-      await writeContracts.controller.claim(nftContract);
+      await writeContracts.Controller.claim(nftContract);
       toast({
         title: "Claimed successfully.",
-        description: "We've created a NFT for you.",
+        description: "You've successfully claimed a NFT!!!",
         status: "success",
         duration: 9000,
         isClosable: true,
