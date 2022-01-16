@@ -10,11 +10,19 @@ contract Controller {
         ITemplate(_nftAddress).claim(msg.sender);
     }
 
-    function isClaimable(address _nftAddress, address _user) external view returns (bool) {
+    function isClaimable(address _nftAddress, address _user)
+        external
+        view
+        returns (bool)
+    {
         return ITemplate(_nftAddress).isClaimable(_user);
     }
 
-    function getCampaign(address _nftAddress) external view returns (ICampaign memory campaign) {
+    function getCampaign(address _nftAddress)
+        external
+        view
+        returns (ICampaign memory campaign)
+    {
         return ITemplate(_nftAddress).getCampaign();
     }
 }
