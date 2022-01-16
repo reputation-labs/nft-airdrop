@@ -93,7 +93,7 @@ export default function ExampleUI({
             Moralis.Web3.getNFTs({
                 offset: 0,
                 limit: 20,
-                address: '0x4fc49473f655633427155badc3f47297f9f80369'
+                address: '0x4fc49473f655633427155badc3f47297f9f80369' // 替换成当前钱包的 account
             }).then(res => {
                 console.log('getNFTchain.....')
                 console.log(res);
