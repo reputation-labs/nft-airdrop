@@ -67,6 +67,13 @@ describe("Lootbox TEST...", function () {
 
     const balance = await nftContract.balanceOf(owner.address, 2);
     expect(balance).to.equal(1);
+
+    const [appearance, fightingPower, level] = await nftContract.getCampaignMetadata(2);
+    console.log("appearance", appearance);
+    console.log("fightingPower", fightingPower);
+    console.log("level", level);
+    expect(level).to.be.above(1);
+    expect(level).to.be.below(9);
   });
 
   it("alice claim without nft", async function () {
