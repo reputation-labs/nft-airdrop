@@ -15,7 +15,6 @@ packages/hardhat/cache*
 packages/**/data
 !packages/react-app/src/contracts/contracts.js
 
-
 # ts
 packages/hardhat-ts/cache
 # secrets
@@ -67,3 +66,4 @@ yarn-error.log*
 
 # doc directory
 /doc
+packages/hardhat/.openzeppelin/unknown-31337.json

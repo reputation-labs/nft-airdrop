@@ -7,22 +7,16 @@ contract LootboxFactory {
         function create(uint index,
         string memory campaignName,
         string memory tokenURI,
-        uint8 appearance,
-        uint8 fightingPower,
-        uint8 level,
-        address[] memory canMintErc721
+        address[] memory canMintErc721,
+        address  controller
     ) external returns(address) {
         Lootbox.Campaign memory campaign;
         campaign.campaignName = campaignName;
         campaign.tokenURI=tokenURI;
-        campaign.appearance=appearance;
-        campaign.fightingPower=fightingPower;
-        campaign.level=level;
         campaign.canMintErc721 = canMintErc721;
-
     
         Lootbox newCampaign = new Lootbox{salt: keccak256(abi.encode(msg.sender, index))}(
-           campaign
+           campaign,controller
         );
 
         return address(newCampaign);
