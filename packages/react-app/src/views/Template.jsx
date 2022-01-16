@@ -11,6 +11,7 @@ import {
   FormHelperText,
   Avatar,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { ScaleFade } from "@chakra-ui/react";
 import { FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/react";
@@ -141,19 +142,50 @@ export default function Template({ writeContracts }) {
     })();
   }, [debouncedSearch]);
 
+  const toast = useToast();
   const onSubmit = async values => {
+    const method = selectedOption == "loot" ? "launchCampaignLootbox" : "launchCampaignCommonNFT";
     const data = {
       campaignName: values.name,
-      level,
       tokenURI: tokenURIs[selectedKitty],
       duration: durationDate,
       appearance: selectedKitty,
       fightingPower: power,
-      canMintErc721: addresses,
+      level,
+      canMintErc721: addresses ?? [],
     };
+    const contractArgs = [
+      data.campaignName,
+      data.tokenURI,
+      data.duration,
+      data.appearance,
+      data.fightingPower,
+      data.level,
+      data.canMintErc721,
+    ];
 
-    const contractArgs = Object.values(data)
+    try {
+      await writeContracts.DistributionManager[method](...contractArgs);
+      toast({
+        title: "Create NFT Success!",
+        description: "We've created your nft for you.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (e) {
+      console.log(e);
 
+      toast({
+        title: "Error on NFT creation.",
+        description: "Check log message or contact support",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    } finally {
+      return;
+    }
   };
 
   const handleSetDuration = date => {

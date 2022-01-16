@@ -453,36 +453,22 @@ function App(props) {
               MyNFT
             </Link>
           </Menu.Item>
-          <Menu.Item key="/">
+          <Menu.Item key="/template">
             <Link
               onClick={() => {
-                setRoute("/");
+                setRoute("/template");
               }}
-              to="/"
+              to="/template"
             >
-              YourContract
+              Template
             </Link>
           </Menu.Item>
 
         </Menu>
 
         <Switch>
-        <Route path="/MyNFT">
-            <MyNFT
-            address={address}
-            purpose={purpose}
-          />
-           </Route>
-          <Route>
-            <Contract
-              name="YourContract"
-              price={price}
-              signer={userSigner}
-              provider={localProvider}
-              address={address}
-              blockExplorer={blockExplorer}
-              contractConfig={contractConfig}
-            />
+          <Route path="/template">
+            <Template writeContracts={writeContracts} />
           </Route>
           <Route path="/MyNFT">
             <MyNFT
@@ -517,7 +503,6 @@ function App(props) {
         />
         {faucetHint}
       </div>
-
     </div>
   );
 }
