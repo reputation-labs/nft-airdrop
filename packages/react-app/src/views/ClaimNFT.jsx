@@ -1,57 +1,94 @@
 import { utils } from "ethers";
-import { Box, Select } from "@chakra-ui/react";
-import React, { useState } from "react";
+import {
+  Box,
+  useToast,
+  useDisclosure,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+} from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
 import { Tag, HighlightText, Card } from "../components";
 import { useTokenList } from "eth-hooks/dapps/dex";
 import { Button } from "antd";
 import getRandomColor from "../helpers/randomColor";
+import tinyColor from "tinycolor2";
 
-export default function ClaimNft({ yourLocalBalance, mainnetProvider, price, address }) {
-  // Get a list of tokens from a tokenlist -> see tokenlists.org!
-  const [selectedToken, setSelectedToken] = useState("Pick a token!");
-  const listOfTokens = useTokenList(
-    "https://raw.githubusercontent.com/SetProtocol/uniswap-tokenlist/main/set.tokenlist.json",
+function AddressTag(address) {
+  const bgColor = getRandomColor();
+  const fontColor = !!tinyColor(bgColor).isLight() ? "black" : "white";
+  return (
+    <Tag color={bgColor}>
+      <span style={{ color: fontColor }}>{address}</span>
+    </Tag>
   );
+}
 
-  const mockData = [
-    {
-      name: "Uniswap v3 reward program",
-      requirement: ["address1", "address2"],
-    },
-    {
-      name: "Compound v2 reward program",
-      requirement: ["address3", "address4"],
-    },
-  ];
+export default function ClaimNft({ address, tx, readContracts, writeContracts }) {
+  // Get a list of tokens from a tokenlist -> see tokenlists.org!
+  const [claimable, setClaimable] = useState(false);
+  const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  let campaigns = [];
+  let campaignsInfo = [];
+
+  useEffect(async () => {
+    campaigns = await readContracts?.DistributionManager?.campaigns();
+    campaigns?.forEach(async nftContract => {
+      const campaign = await readContracts?.controller?.getCampaign(nftContract);
+      campaignsInfo.push(campaign);
+    });
+  });
+
+  const handleClaim = async i => {
+    const nftContract = campaigns[i];
+    const isClaimable = await readContracts?.controller?.isClaimable(nftContract, address);
+    if (isClaimable) {
+      await readContracts.controller.claim(nftContract);
+      toast({
+        title: "Claimed successfully.",
+        description: "We've created a NFT for you.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } else {
+      onOpen();
+    }
+  };
 
   return (
     <div style={{ margin: "auto", width: "70vw" }}>
       <Card style={{ marginTop: 50, width: "100%" }}>
-        <Box>
-          <span style={{ marginRight: 8 }}>🚀</span>
-          Campaign 1: <b>{mockData[0].name}</b>
-          <Button style={{ marginLeft: 32 }}>Claim NFT 💸</Button>
-        </Box>
-        <Box>
-          {mockData[0].requirement.map(address => (
-            <Tag color={getRandomColor()}>
-              <span style={{ color: "white" }}>{address}</span>
-            </Tag>
-          ))}
-        </Box>
-        <Box>
-          <span style={{ marginRight: 8 }}>🚀</span>
-          Campaign 2: <b>{mockData[1].name}</b>
-          <Button style={{ marginLeft: 32 }}>Claim NFT 💸</Button>
-        </Box>
-        <Box>
-          {mockData[1].requirement.map(address => (
-            <Tag color={getRandomColor()}>
-              <span style={{ color: "white" }}>{address}</span>
-            </Tag>
-          ))}
-        </Box>
+        {campaignsInfo.map((camp, i) => (
+          <>
+            <Box>
+              <span style={{ marginRight: 8 }}>🚀</span>
+              Campaign {i}: <b>{camp?.campaignName}</b>
+              <Button style={{ marginLeft: 32 }} onClick={() => handleClaim(i)}>
+                Claim NFT 💸
+              </Button>
+            </Box>
+            <Box>{camp?.canMintErc721.map(addr => AddressTag(addr))}</Box>
+          </>
+        ))}
       </Card>
+      <Modal onClose={onClose} isOpen={isOpen}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>You're not able to claim the NFT!</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>Please check the requirement of this NFT.</ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
