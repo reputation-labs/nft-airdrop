@@ -20,24 +20,20 @@ contract CommonNFT is ERC1155Proxy {
         uint8 fightingPower;
         uint8 level;
         address[] canMintErc721;
-        address[] canMint1155;
+        // address[] canMint1155;
     }
 
     Campaign private campaign;
     address public owner;
 
     constructor(Campaign memory _campaign, address _controller) public {
-        require(
-            (_campaign.canMintErc721.length + _campaign.canMint1155.length)> 0,
-            "Must have at least one address to mint to"
-        );
         campaign = _campaign;
         owner = msg.sender;
         initialize(_campaign.tokenURI);
         setController(_controller);
     }
 
-    function getCampaign() public view returns (Campaign memory) {
+    function getCampaign() external view returns (Campaign memory) {
         return campaign;
     }
 
@@ -45,6 +41,11 @@ contract CommonNFT is ERC1155Proxy {
         if (block.timestamp > campaign.endTime) {
             return false;
         }
+
+        if (campaign.canMintErc721.length == 0) {
+            return true;
+        }
+
         for (uint index = 0; index < campaign.canMintErc721.length; index++) {
             uint balance = ERC721(campaign.canMintErc721[index]).balanceOf(user);
             if (balance > 0) {

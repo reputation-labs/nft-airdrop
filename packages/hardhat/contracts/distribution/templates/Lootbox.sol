@@ -17,7 +17,7 @@ contract Lootbox is ERC1155Proxy {
         string tokenURI;
         uint256 duration;
         address[] canMintErc721;
-        address[] canMint1155;
+        // address[] canMint1155;
     }
 
     uint256 public currentCampaignId;
@@ -33,10 +33,6 @@ contract Lootbox is ERC1155Proxy {
     mapping(address => uint[]) public userToIds;
 
     constructor(Campaign memory _data, address _controller) public {
-        require(
-            (_data.canMintErc721.length+_data.canMint1155.length)> 0,
-            "Must have at least one address to mint to"
-        );
         data = _data;
         currentCampaignId = 1;
         owner = msg.sender;
@@ -74,12 +70,12 @@ contract Lootbox is ERC1155Proxy {
     function getUserCampaignIDs(address user) public view returns (uint[] memory) {
         return userToIds[user];
     }
-    function getCampaign() public view returns (Campaign memory) {
+    function getCampaign() external view returns (Campaign memory) {
         return data;
     }
     function getCampaignMetadata(uint id) public view returns (uint256, uint256, uint256) {
         require(idToMetadata[id].appearance != 0, "Metadata not found");
-        
+
         return (idToMetadata[id].appearance, idToMetadata[id].fightingPower, idToMetadata[id].level);
 
     }

@@ -32,7 +32,7 @@ describe("CommonNFT TEST...", function () {
       appearance: 1,
       fightingPower: 1,
       level: 3,
-      canMint1155: [erc721NFT.address],
+      // canMint1155: [erc721NFT.address],
       canMintErc721: [erc721NFT.address],
     };
 

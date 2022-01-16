@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 pragma solidity 0.8.4;
-import "./ICampaign.sol";
 
 /// @title ITemplate
 /// @notice A contract used by the Controller to perform ERC1155 functions (inherited
@@ -10,12 +9,12 @@ import "./ICampaign.sol";
 /// @dev This contract exists solely to decrease the size of the deployed SeriesController
 /// bytecode so it can be lower than the Spurious Dragon bytecode size limit
 
-interface ITemplate {
-    function claim(
-        address user
-    ) external;
-
-    function isClaimable(address user) external view returns (bool);
-
-    function getCampaign() external view returns (ICampaign memory campaign);
+struct ICampaign {
+    string campaignName;
+    string tokenURI;
+    uint256 endTime;
+    uint8 appearance;
+    uint8 fightingPower;
+    uint8 level;
+    address[] canMintErc721;
 }

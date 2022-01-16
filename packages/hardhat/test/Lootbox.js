@@ -28,7 +28,7 @@ describe("Lootbox TEST...", function () {
       campaignName: "Test campaignName",
       tokenURI: "https://www.example.com/tokenURI",
       duration: 7,
-      canMint1155: [erc721NFT.address],
+      // canMint1155: [erc721NFT.address],
       canMintErc721: [erc721NFT.address],
     };
 
