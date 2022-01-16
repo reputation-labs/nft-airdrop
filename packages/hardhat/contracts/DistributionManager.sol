@@ -101,7 +101,7 @@ contract DistributionManager is Initializable {
         controller = _controller;
     }
 
-    function setLootboxFactory(IDistributionFactoryLootbox _lootboxFactory) external {
+    function setLootboxFactory(IDistributionFactory _lootboxFactory) external {
         require(address(_lootboxFactory) != address(0), "LootboxFactory should not be 0 address");
 
         lootboxFactory = _lootboxFactory;
