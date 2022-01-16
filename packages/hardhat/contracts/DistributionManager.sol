@@ -94,7 +94,6 @@ contract DistributionManager is Initializable {
         commonNFTFactory = _commonNFTFactory;
     }
 
-
     function setController(address _controller) external {
         require(address(_controller) != address(0), "Controller should not be 0 address");
 
@@ -115,5 +114,3 @@ contract DistributionManager is Initializable {
         return userToCampaign[user];
     }
 }
-
-
