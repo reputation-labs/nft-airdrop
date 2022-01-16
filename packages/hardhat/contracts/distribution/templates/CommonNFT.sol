@@ -41,7 +41,7 @@ contract CommonNFT is ERC1155Proxy {
         return campaign;
     }
 
-    function isClaimable(address user) private view returns (bool) {
+    function isClaimable(address user) public view returns (bool) {
         if (block.timestamp > campaign.endTime) {
             return false;
         }

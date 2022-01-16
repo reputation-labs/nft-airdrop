@@ -15,7 +15,7 @@ describe("Lootbox TEST...", function () {
   before(async function () {
     [owner, alice] = await ethers.getSigners();
 
-    const Factory = await ethers.getContractFactory("LootboxController");
+    const Factory = await ethers.getContractFactory("Controller");
     lootboxController = await Factory.deploy();
 
     const erc271ContractFactory = await ethers.getContractFactory("TestERC721");

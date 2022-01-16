@@ -10,12 +10,10 @@ describe("CommonNFT TEST...", function () {
   let alice;
   let erc271Contract;
   let erc721NFT;
-  let commonNFTController;
+  let controller;
   before(async function () {
-    const CommonNFTControllerFactory = await ethers.getContractFactory(
-      "CommonNFTController"
-    );
-    commonNFTController = await CommonNFTControllerFactory.deploy();
+    const ControllerFactory = await ethers.getContractFactory("Controller");
+    controller = await ControllerFactory.deploy();
   });
 
   beforeEach(async function () {
@@ -38,10 +36,7 @@ describe("CommonNFT TEST...", function () {
       canMintErc721: [erc721NFT.address],
     };
 
-    nftContract = await contractFactory.deploy(
-      campaign,
-      commonNFTController.address
-    );
+    nftContract = await contractFactory.deploy(campaign, controller.address);
   });
 
   it("ERC721", async function () {
@@ -65,7 +60,7 @@ describe("CommonNFT TEST...", function () {
 
   it("claim", async function () {
     // await nftContract.claim();
-    await commonNFTController.connect(owner).claim(nftContract.address);
+    await controller.connect(owner).claim(nftContract.address);
     const balance = await nftContract.balanceOf(owner.address, 1);
     expect(balance).to.equal(1);
   });
@@ -81,7 +76,7 @@ describe("CommonNFT TEST...", function () {
     expect(await nftContract.balanceOf(alice.address, 1)).to.equal(0);
 
     await expect(
-      commonNFTController.connect(alice).claim(nftContract.address)
+      controller.connect(alice).claim(nftContract.address)
     ).to.be.revertedWith("You cannot claim this token");
 
     expect(await nftContract.balanceOf(alice.address, 1)).to.equal(0);
@@ -97,7 +92,7 @@ describe("CommonNFT TEST...", function () {
 
     expect(await nftContract.balanceOf(alice.address, 1)).to.equal(0);
 
-    await commonNFTController.connect(alice).claim(nftContract.address);
+    await controller.connect(alice).claim(nftContract.address);
 
     expect(await nftContract.balanceOf(alice.address, 1)).to.equal(1);
   });
