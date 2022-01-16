@@ -4,11 +4,17 @@ const { ethers, upgrades } = require("hardhat");
 describe("DistributionManager contract", function () {
   let DistributionManager;
   let owner;
-  let alice;
-  let bob;
+
+  let commonNFTController;
+  before(async function () {
+    const CommonNFTControllerFactory = await ethers.getContractFactory(
+      "CommonNFTController"
+    );
+    commonNFTController = await CommonNFTControllerFactory.deploy();
+  });
 
   beforeEach(async function () {
-    [owner, alice, bob] = await ethers.getSigners();
+    [owner] = await ethers.getSigners();
     const DistributionManagerContract = await ethers.getContractFactory(
       "DistributionManager"
     );
@@ -54,7 +60,12 @@ describe("DistributionManager contract", function () {
     await DistributionManager.launchCampaignCommonNFT(
       "Common NFT Campaign",
       "ipfs://...",
-      1, 1, 4, ['0x0000000000000000000000000000000000000001'],
+      7,
+      1,
+      1,
+      4,
+      ["0x0000000000000000000000000000000000000001"],
+      commonNFTController.address
     );
 
     const campaigns = await DistributionManager.campaigns();

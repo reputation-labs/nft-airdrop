@@ -27,26 +27,26 @@ contract ERC1155Proxy is
     // mapping (address => uint) public userTotalIDSupplies;    // id 1: 10; id 2: 0; id 3: 0 = 10
 
     function initialize(
-        string memory _uri,
-        address _controller
-    ) public virtual initializer {
-        __ERC1155Proxy_init(_uri, _controller);
+        string memory _uri
+    ) public virtual override initializer {
+        __ERC1155Proxy_init(_uri);
     }
 
     /// @notice Perform inherited contracts' initializations
     function __ERC1155Proxy_init(
-        string memory _uri,
-        address _controller
+        string memory _uri
     ) internal initializer {
         __ERC1155PresetMinterPauser_init(_uri);
 
-        controller = _controller;
-
         // only the Controller should be allowed to mint
         renounceRole(MINTER_ROLE, msg.sender);
-        _setupRole(MINTER_ROLE, _controller);
 
-        emit ERC1155ProxyInitialized(_controller);
+        emit ERC1155ProxyInitialized(_uri);
+    }
+
+    function setController(address _controller) public onlyOwner {
+        controller = _controller;
+        _setupRole(MINTER_ROLE, _controller);
     }
 
     ///////////////////// MODIFIER FUNCTIONS /////////////////////
@@ -275,6 +275,6 @@ contract ERC1155Proxy is
     ///////////////////// EVENS /////////////////////
 
     /// @notice Emitted when the ERC1155Proxy is initialized
-    event ERC1155ProxyInitialized(address controller);
+    event ERC1155ProxyInitialized(string uri);
 
 }

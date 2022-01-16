@@ -4,9 +4,11 @@ pragma solidity 0.8.4;
 import "../templates/CommonNFT.sol";
 
 contract CommonNFTFactory {
-    function create(uint index,
+    function create(
+        uint index,
         string memory campaignName,
         string memory tokenURI,
+        uint256 endTime,
         uint8 appearance,
         uint8 fightingPower,
         uint8 level,
@@ -16,6 +18,7 @@ contract CommonNFTFactory {
         CommonNFT.Campaign memory campaign;
         campaign.campaignName = campaignName;
         campaign.tokenURI=tokenURI;
+        campaign.endTime = endTime;
         campaign.appearance=appearance;
         campaign.fightingPower=fightingPower;
         campaign.level=level;

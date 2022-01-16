@@ -3,16 +3,20 @@ const { ethers, upgrades } = require("hardhat");
 
 describe("ERC1155Proxy contract", function () {
   let ERC1155Proxy;
+  let owner;
   let alice;
   let bob;
 
   beforeEach(async function () {
-    [, alice, bob] = await ethers.getSigners();
+    [owner, alice, bob] = await ethers.getSigners();
     const ERC1155ProxyContract = await ethers.getContractFactory(
       "ERC1155Proxy"
     );
 
-    ERC1155Proxy = await upgrades.deployProxy(ERC1155ProxyContract, [""]);
+    ERC1155Proxy = await upgrades.deployProxy(ERC1155ProxyContract, [
+      "ipfs://",
+    ]);
+    await ERC1155Proxy.setController(owner.address);
   });
 
   it("get initial state", async function () {

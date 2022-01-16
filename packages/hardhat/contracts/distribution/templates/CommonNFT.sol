@@ -15,7 +15,7 @@ contract CommonNFT is ERC1155Proxy {
     struct Campaign {
         string campaignName;
         string tokenURI;
-        uint256 duration;
+        uint256 endTime;
         uint8 appearance;
         uint8 fightingPower;
         uint8 level;
@@ -23,31 +23,30 @@ contract CommonNFT is ERC1155Proxy {
         address[] canMint1155;
     }
 
-    uint256 public currentCampaignId;
-    Campaign private data;
-    address private owner;
+    Campaign private campaign;
+    address public owner;
 
     constructor(Campaign memory _campaign, address _controller) public {
         require(
             (_campaign.canMintErc721.length + _campaign.canMint1155.length)> 0,
             "Must have at least one address to mint to"
         );
-        data = _campaign;
-        currentCampaignId = 1;
+        campaign = _campaign;
         owner = msg.sender;
-        initialize(_campaign.tokenURI, _controller);
+        initialize(_campaign.tokenURI);
+        setController(_controller);
     }
 
     function getCampaign() public view returns (Campaign memory) {
-        return data;
-    }
-    function getCurrentOwner() public view returns (address) {
-        return owner;
+        return campaign;
     }
 
     function isClaimable(address user) private view returns (bool) {
-        for (uint index = 0; index < data.canMintErc721.length; index++) {
-            uint balance = ERC721(data.canMintErc721[index]).balanceOf(user);
+        if (block.timestamp > campaign.endTime) {
+            return false;
+        }
+        for (uint index = 0; index < campaign.canMintErc721.length; index++) {
+            uint balance = ERC721(campaign.canMintErc721[index]).balanceOf(user);
             if (balance > 0) {
                 return true;
             }
@@ -60,11 +59,5 @@ contract CommonNFT is ERC1155Proxy {
 
         ERC1155Proxy.mint(user, 1, 1, "");
         return true;
-    }
-
-    function _setTokenURI(uint256 baseId, string memory uri) private pure {}
-
-    function getNextId() private view returns (uint256 nextId) {
-        return currentCampaignId.add(1);
     }
 }
