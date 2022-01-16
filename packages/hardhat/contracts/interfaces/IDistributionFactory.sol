@@ -11,6 +11,7 @@ interface IDistributionFactory {
     function create(uint256 index,
         string memory campaignName,
         string memory tokenURI,
+        uint8 duration,
         uint8 appearance,
         uint8 fightingPower,
         uint8 level,

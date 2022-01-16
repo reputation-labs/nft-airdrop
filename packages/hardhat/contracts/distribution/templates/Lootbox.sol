@@ -8,7 +8,6 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "./CommonNFT.sol";
 
 contract Lootbox is ERC1155Proxy {
     using SafeMathUpgradeable for uint256;
@@ -17,9 +16,6 @@ contract Lootbox is ERC1155Proxy {
         string campaignName;
         string tokenURI;
         uint256 duration;
-        uint8 appearance;
-        uint8 fightingPower;
-        uint8 level;
         address[] canMintErc721;
         address[] canMint1155;
     }
@@ -27,16 +23,16 @@ contract Lootbox is ERC1155Proxy {
     uint256 public currentCampaignId;
     Campaign private data;
     address private owner;
-
     struct Metadata {
-        uint8 appearance;
-        uint8 fightingPower;
-        uint8 level;
+        uint appearance;
+        uint fightingPower;
+        uint level;
     }
 
     mapping (uint => Metadata) public idToMetadata;
+    mapping(address => uint[]) public userToIds;
 
-    constructor(Campaign memory _data) public {
+    constructor(Campaign memory _data, address _controller) public {
         require(
             (_data.canMintErc721.length+_data.canMint1155.length)> 0,
             "Must have at least one address to mint to"
@@ -44,11 +40,7 @@ contract Lootbox is ERC1155Proxy {
         data = _data;
         currentCampaignId = 1;
         owner = msg.sender;
-    }
-
-
-    function getCurrentOwner() public view returns (address) {
-        return owner;
+        initialize(_data.tokenURI, _controller);
     }
 
     function isClaimable(address user) public view returns (bool) {
@@ -61,19 +53,46 @@ contract Lootbox is ERC1155Proxy {
         return false;
     }
 
-    function claim() public returns (bool) {
-        require(isClaimable(msg.sender), "You cannot claim this token");
+    function claim(address user) public returns (uint) {
+        require(isClaimable(user), "You cannot claim this token");
 
-        ERC1155Proxy.mint(msg.sender, 1, 1, "");
-        return false;
+        uint id = getNextId();
+
+        Metadata memory metadata;
+        metadata.appearance = randomRange(1,9);
+        metadata.fightingPower = randomRange(1,9);
+        metadata.level = randomRange(1,9);
+
+        idToMetadata[id]= metadata;
+
+        ERC1155Proxy.mint(user, id, 1, "");
+
+        userToIds[user].push(id);
+        return (id);
     }
+    function getUserCampaignIDs(address user) public view returns (uint[] memory) {
+        return userToIds[user];
+    }
+    function getCampaign() public view returns (Campaign memory) {
+        return data;
+    }
+    function getCampaignMetadata(uint id) public view returns (uint256, uint256, uint256) {
+        require(idToMetadata[id].appearance != 0, "Metadata not found");
+        
+        return (idToMetadata[id].appearance, idToMetadata[id].fightingPower, idToMetadata[id].level);
 
-    function _setTokenURI(uint256 baseId, string memory uri) private pure {}
+    }
+    function getCurrentOwner() public view returns (address) {
+        return owner;
+    }
 
     function getNextId() private view returns (uint256 nextId) {
         return currentCampaignId.add(1);
     }
-
+    function randomRange(uint256 min, uint256 max) private view returns (uint256 result) {
+        require(min < max, "min must be less than max");
+        return min + (ramdom() % (max - min));
+    }
     function ramdom()
         private
         view

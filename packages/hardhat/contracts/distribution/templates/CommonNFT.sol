@@ -62,8 +62,6 @@ contract CommonNFT is ERC1155Proxy {
         return true;
     }
 
-    function _setTokenURI(uint256 baseId, string memory uri) private pure {}
-
     function getNextId() private view returns (uint256 nextId) {
         return currentCampaignId.add(1);
     }

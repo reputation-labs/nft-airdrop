@@ -4,46 +4,39 @@ const { solidity } = require("ethereum-waffle");
 
 use(solidity);
 
-describe("CommonNFT TEST...", function () {
+describe("Lootbox TEST...", function () {
   let nftContract;
   let owner;
   let alice;
   let erc271Contract;
   let erc721NFT;
-  let commonNFTController;
+  let lootboxController;
   // quick fix to let gas reporter fetch data from gas station & coinmarketcap
   before(async function () {
-    const CommonNFTControllerFactory = await ethers.getContractFactory(
-      "CommonNFTController"
-    );
-    commonNFTController = await CommonNFTControllerFactory.deploy();
-  });
-
-  beforeEach(async function () {
     [owner, alice] = await ethers.getSigners();
+
+    const Factory = await ethers.getContractFactory("LootboxController");
+    lootboxController = await Factory.deploy();
 
     const erc271ContractFactory = await ethers.getContractFactory("TestERC721");
     erc271Contract = await erc271ContractFactory.deploy();
     erc721NFT = await erc271Contract.deployed();
     await erc721NFT.awardItem(owner.address, "IPFS://");
 
-    const contractFactory = await ethers.getContractFactory("CommonNFT");
+    const contractFactory = await ethers.getContractFactory("Lootbox");
     const campaign = {
       campaignName: "Test campaignName",
       tokenURI: "https://www.example.com/tokenURI",
       duration: 7,
-      appearance: 1,
-      fightingPower: 1,
-      level: 3,
       canMint1155: [erc721NFT.address],
       canMintErc721: [erc721NFT.address],
     };
 
-    nftContract = await contractFactory.deploy(
-      campaign,
-      commonNFTController.address
-    );
+    nftContract = await contractFactory.deploy(campaign, lootboxController.address);
   });
+
+  // beforeEach(async function () {
+  // });
 
   it("ERC721", async function () {
     const tokenURI = await erc721NFT.tokenURI(1);
@@ -61,34 +54,43 @@ describe("CommonNFT TEST...", function () {
   });
   it("getCampaign", async function () {
     const campaign = await nftContract.getCampaign();
-    expect(campaign.level).to.equal(3);
+    expect(campaign.duration).to.equal(7);
   });
 
   it("claim", async function () {
     // await nftContract.claim();
-    await commonNFTController.connect(owner).claim(nftContract.address);
-    const balance = await nftContract.balanceOf(owner.address, 1);
+    await lootboxController.connect(owner).claim(nftContract.address);
+
+    const ids = await nftContract.getUserCampaignIDs(owner.address);
+    expect(ids[0]).to.equal(2);
+    expect(ids.length).to.equal(1);
+
+    const balance = await nftContract.balanceOf(owner.address, 2);
     expect(balance).to.equal(1);
   });
 
   it("alice claim without nft", async function () {
+    const ids = await nftContract.getUserCampaignIDs(alice.address);
+    expect(ids.length).to.equal(0);
+
     const balanceERC721 = await erc721NFT.balanceOf(alice.address);
     expect(balanceERC721).to.equal(0);
-
-    // await erc721NFT.awardItem(alice.address, "IPFS://");
 
     expect(await erc721NFT.balanceOf(alice.address)).to.equal(0);
 
     expect(await nftContract.balanceOf(alice.address, 1)).to.equal(0);
 
     await expect(
-      commonNFTController.connect(alice).claim(nftContract.address)
+      lootboxController.connect(alice).claim(nftContract.address)
     ).to.be.revertedWith("You cannot claim this token");
 
     expect(await nftContract.balanceOf(alice.address, 1)).to.equal(0);
   });
 
   it("alice claim with nft", async function () {
+    const ids = await nftContract.getUserCampaignIDs(alice.address);
+    expect(ids.length).to.equal(0);
+
     const balanceERC721 = await erc721NFT.balanceOf(alice.address);
     expect(balanceERC721).to.equal(0);
 
@@ -98,8 +100,8 @@ describe("CommonNFT TEST...", function () {
 
     expect(await nftContract.balanceOf(alice.address, 1)).to.equal(0);
 
-    await commonNFTController.connect(alice).claim(nftContract.address);
+    await lootboxController.connect(alice).claim(nftContract.address);
 
-    expect(await nftContract.balanceOf(alice.address, 1)).to.equal(1);
+    expect(await nftContract.balanceOf(alice.address, 2)).to.equal(1);
   });
 });
