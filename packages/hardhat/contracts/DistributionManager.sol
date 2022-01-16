@@ -2,8 +2,9 @@
 pragma solidity 0.8.4;
 
 import "./interfaces/IDistributionFactory.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-contract DistributionManager {
+contract DistributionManager is Initializable {
     address[] internal _campaigns;
     mapping (address => address[]) public userToCampaign;
     mapping (address => address) public campaignToUser;
@@ -14,6 +15,14 @@ contract DistributionManager {
     IDistributionFactory public commonNFTFactory;
     IDistributionFactory public lootboxFactory;
 
+    address public controller;
+
+    function initialize(
+        address _controller
+    ) public virtual initializer {
+        controller = _controller;
+    }
+
     function launchCampaignCommonNFT(
         string memory campaignName,
         string memory tokenURI,
@@ -21,10 +30,10 @@ contract DistributionManager {
         uint8 appearance,
         uint8 fightingPower,
         uint8 level,
-        address[] memory canMintErc721,
-        address controller
+        address[] memory canMintErc721
     ) external {
         require(address(commonNFTFactory) != address(0), "CommonNFTFactory is not set");
+        require(address(controller) != address(0), "Controller is not set");
 
         commonNFTAmount = commonNFTAmount + 1;
 
@@ -45,6 +54,10 @@ contract DistributionManager {
         userToCampaign[msg.sender].push(address(newCampaign));
         campaignToUser[address(newCampaign)] = msg.sender;
     }
+
+    // function setController(address _controller) public onlyOwner {
+    //     controller = _controller;
+    // }
 
     // function launchCampaignLootbox( string memory campaignName,
     //     string memory tokenURI,
