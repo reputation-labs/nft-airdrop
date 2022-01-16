@@ -12,4 +12,6 @@ interface ITemplate {
     function claim(
         address user
     ) external;
+
+    function isClaimable(address user) external view returns (bool);
 }

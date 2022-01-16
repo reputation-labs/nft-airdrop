@@ -5,12 +5,10 @@ describe("DistributionManager contract", function () {
   let DistributionManager;
   let owner;
 
-  let commonNFTController;
+  let controller;
   before(async function () {
-    const CommonNFTControllerFactory = await ethers.getContractFactory(
-      "CommonNFTController"
-    );
-    commonNFTController = await CommonNFTControllerFactory.deploy();
+    const ControllerFactory = await ethers.getContractFactory("Controller");
+    controller = await ControllerFactory.deploy();
   });
 
   beforeEach(async function () {
@@ -21,7 +19,7 @@ describe("DistributionManager contract", function () {
 
     DistributionManager = await upgrades.deployProxy(
       DistributionManagerContract,
-      [commonNFTController.address]
+      [controller.address]
     );
 
     const CommonNFTFactoryContract = await ethers.getContractFactory(
@@ -44,7 +42,7 @@ describe("DistributionManager contract", function () {
 
     await DistributionManager.setCommonNFTFactory(CommonNFTFactory.address);
     await DistributionManager.setLootboxFactory(LootboxFactory.address);
-    // await DistributionManager.setController(commonNFTController.address);
+    // await DistributionManager.setController(controller.address);
   });
 
   it("get initial state", async function () {
