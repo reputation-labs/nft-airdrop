@@ -55,32 +55,37 @@ contract DistributionManager is Initializable {
         campaignToUser[address(newCampaign)] = msg.sender;
     }
 
-    // function setController(address _controller) public onlyOwner {
-    //     controller = _controller;
-    // }
+    function launchCampaignLootbox(
+        string memory campaignName,
+        string memory tokenURI,
+        uint256 duration,   // days
+        uint8 appearance,
+        uint8 fightingPower,
+        uint8 level,
+        address[] memory canMintErc721
+    ) external {
+        require(address(lootboxFactory) != address(0), "LootboxFactory is not set");
+        require(address(controller) != address(0), "Controller is not set");
 
-    // function launchCampaignLootbox( string memory campaignName,
-    //     string memory tokenURI,
-    //     uint8 appearance,
-    //     uint8 fightingPower,
-    //     uint8 level,
-    //     address[] memory canMintErc721) external {
-    //     require(address(lootboxFactory) != address(0), "LootboxFactory is not set");
+        lootboxAmount = lootboxAmount + 1;
 
-    //     lootboxAmount = lootboxAmount + 1;
+        address newCampaign = lootboxFactory.create(
+            lootboxAmount,
+            campaignName,
+            tokenURI,
+            block.timestamp + duration * 24 * 3600,
+            appearance,
+            fightingPower,
+            level,
+            canMintErc721,
+            controller
+        );
 
-    //     address newCampaign = lootboxFactory.create(lootboxAmount,
-    //         campaignName,
-    //         tokenURI,
-    //         appearance,
-    //         fightingPower,
-    //         level,
-    //         canMintErc721);
+        _campaigns.push(address(newCampaign));
 
-    //     _campaigns.push(address(newCampaign));
-    //     userToCampaign[msg.sender].push(address(newCampaign));
-    //     campaignToUser[address(newCampaign)] = msg.sender;
-    // }
+        userToCampaign[msg.sender].push(address(newCampaign));
+        campaignToUser[address(newCampaign)] = msg.sender;
+    }
 
     function setCommonNFTFactory(IDistributionFactory _commonNFTFactory) external {
         require(address(_commonNFTFactory) != address(0), "CommonNFTFactory should not be 0 address");
