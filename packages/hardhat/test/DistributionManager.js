@@ -150,9 +150,7 @@ describe("DistributionManager contract", function () {
     expect(campaign.appearance).to.equal(1);
     expect(campaign.fightingPower).to.equal(1);
     expect(campaign.level).to.equal(4);
-    expect(campaign.canMintErc721[0]).to.equal(
-      "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d"
-    );
+    expect(campaign.canMintErc721[0]).to.equal(erc721NFT.address);
 
     await controller.connect(owner).claim(nftContract);
     const campaignContract = await ethers.getContractAt(
