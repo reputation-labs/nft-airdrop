@@ -30,7 +30,6 @@ function AddressTag(address) {
 
 export default function ClaimNft({ address, tx, readContracts, writeContracts }) {
   // Get a list of tokens from a tokenlist -> see tokenlists.org!
-  const [claimable, setClaimable] = useState(false);
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -49,7 +48,7 @@ export default function ClaimNft({ address, tx, readContracts, writeContracts })
     const nftContract = campaigns[i];
     const isClaimable = await readContracts?.controller?.isClaimable(nftContract, address);
     if (isClaimable) {
-      await readContracts.controller.claim(nftContract);
+      await writeContracts.controller.claim(nftContract);
       toast({
         title: "Claimed successfully.",
         description: "We've created a NFT for you.",
@@ -65,18 +64,22 @@ export default function ClaimNft({ address, tx, readContracts, writeContracts })
   return (
     <div style={{ margin: "auto", width: "70vw" }}>
       <Card style={{ marginTop: 50, width: "100%" }}>
-        {campaignsInfo.map((camp, i) => (
-          <>
-            <Box>
-              <span style={{ marginRight: 8 }}>🚀</span>
-              Campaign {i}: <b>{camp?.campaignName}</b>
-              <Button style={{ marginLeft: 32 }} onClick={() => handleClaim(i)}>
-                Claim NFT 💸
-              </Button>
-            </Box>
-            <Box>{camp?.canMintErc721.map(addr => AddressTag(addr))}</Box>
-          </>
-        ))}
+        {Boolean(campaignsInfo.length) ? (
+          campaignsInfo.map((camp, i) => (
+            <>
+              <Box>
+                <span style={{ marginRight: 8 }}>🚀</span>
+                Campaign {i + 1}: <b>{camp?.campaignName}</b>
+                <Button style={{ marginLeft: 32 }} onClick={() => handleClaim(i)}>
+                  Claim NFT 💸
+                </Button>
+              </Box>
+              <Box>{camp?.canMintErc721.map(addr => AddressTag(addr))}</Box>
+            </>
+          ))
+        ) : (
+          <>Loading...</>
+        )}
       </Card>
       <Modal onClose={onClose} isOpen={isOpen}>
         <ModalOverlay />
