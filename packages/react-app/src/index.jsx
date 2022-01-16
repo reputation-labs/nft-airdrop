@@ -23,10 +23,6 @@ const config = {
 // Implement your own theme https://chakra-ui.com/docs/theming/customize-theme
 const theme = extendTheme(defaultTheme, {
   config,
-  // components,
-  // colors,
-  // fonts,
-  // styles,
 });
 
 ReactDOM.render(

@@ -26,6 +26,7 @@ import { MyNFT } from "./views";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import externalContracts from "./contracts/external_contracts";
 
+import Template from "./views/Template";
 import { useContractConfig } from "./hooks";
 import Portis from "@portis/web3";
 import Fortmatic from "fortmatic";
