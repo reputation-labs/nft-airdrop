@@ -8,21 +8,12 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "./CommonNFT.sol";
 
-contract Lootbox is ERC1155Proxy {
+contract Lootbox is CommonNFT{
     using SafeMathUpgradeable for uint256;
 
-    struct Campaign {
-        string campaignName;
-        string tokenURI;
-        uint256 duration;
-        address[] canMintErc721;
-        // address[] canMint1155;
-    }
-
-    uint256 public currentCampaignId;
-    Campaign private data;
-    address private owner;
+    uint  currentCampaignId;
     struct Metadata {
         uint appearance;
         uint fightingPower;
@@ -32,25 +23,10 @@ contract Lootbox is ERC1155Proxy {
     mapping (uint => Metadata) public idToMetadata;
     mapping(address => uint[]) public userToIds;
 
-    constructor(Campaign memory _data, address _controller) public {
-        data = _data;
-        currentCampaignId = 1;
-        owner = msg.sender;
-        initialize(_data.tokenURI);
-        setController(_controller);
+    constructor(Campaign memory _campaign, address _controller) public  CommonNFT(_campaign, _controller){
     }
 
-    function isClaimable(address user) public view returns (bool) {
-        for (uint index = 0; index < data.canMintErc721.length; index++) {
-            uint balance = ERC721(data.canMintErc721[index]).balanceOf(user);
-            if (balance > 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    function claim(address user) public returns (uint) {
+    function claim(address user) public override returns (bool) {
         require(isClaimable(user), "You cannot claim this token");
 
         uint id = getNextId();
@@ -65,22 +41,16 @@ contract Lootbox is ERC1155Proxy {
         ERC1155Proxy.mint(user, id, 1, "");
 
         userToIds[user].push(id);
-        return (id);
+        return true;
     }
     function getUserCampaignIDs(address user) public view returns (uint[] memory) {
         return userToIds[user];
-    }
-    function getCampaign() external view returns (Campaign memory) {
-        return data;
     }
     function getCampaignMetadata(uint id) public view returns (uint256, uint256, uint256) {
         require(idToMetadata[id].appearance != 0, "Metadata not found");
 
         return (idToMetadata[id].appearance, idToMetadata[id].fightingPower, idToMetadata[id].level);
 
-    }
-    function getCurrentOwner() public view returns (address) {
-        return owner;
     }
 
     function getNextId() private view returns (uint256 nextId) {

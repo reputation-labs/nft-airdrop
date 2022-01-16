@@ -23,7 +23,7 @@ contract CommonNFT is ERC1155Proxy {
         // address[] canMint1155;
     }
 
-    Campaign private campaign;
+    Campaign internal campaign;
     address public owner;
 
     constructor(Campaign memory _campaign, address _controller) public {
@@ -37,7 +37,7 @@ contract CommonNFT is ERC1155Proxy {
         return campaign;
     }
 
-    function isClaimable(address user) public view returns (bool) {
+    function isClaimable(address user) public virtual view returns (bool) {
         if (block.timestamp > campaign.endTime) {
             return false;
         }
@@ -55,7 +55,7 @@ contract CommonNFT is ERC1155Proxy {
         return false;
     }
 
-    function claim(address user) public returns (bool) {
+    function claim(address user) public virtual returns (bool) {
         require(isClaimable(user), "You cannot claim this token");
 
         ERC1155Proxy.mint(user, 1, 1, "");

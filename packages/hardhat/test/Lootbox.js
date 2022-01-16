@@ -18,6 +18,10 @@ describe("Lootbox TEST...", function () {
     const Factory = await ethers.getContractFactory("Controller");
     lootboxController = await Factory.deploy();
 
+
+  });
+
+  beforeEach(async function () {
     const erc271ContractFactory = await ethers.getContractFactory("TestERC721");
     erc271Contract = await erc271ContractFactory.deploy();
     erc721NFT = await erc271Contract.deployed();
@@ -27,16 +31,16 @@ describe("Lootbox TEST...", function () {
     const campaign = {
       campaignName: "Test campaignName",
       tokenURI: "https://www.example.com/tokenURI",
-      duration: 7,
+      endTime: 2222222222,
+      appearance: 9,
+      fightingPower: 9,
+      level: 9,
       // canMint1155: [erc721NFT.address],
       canMintErc721: [erc721NFT.address],
     };
 
     nftContract = await contractFactory.deploy(campaign, lootboxController.address);
   });
-
-  // beforeEach(async function () {
-  // });
 
   it("ERC721", async function () {
     const tokenURI = await erc721NFT.tokenURI(1);
@@ -47,28 +51,28 @@ describe("Lootbox TEST...", function () {
   });
 
   it("getCurrentOwner", async function () {
-    const nftContractOwner = await nftContract.getCurrentOwner();
+    const nftContractOwner = await nftContract.owner();
     expect(nftContractOwner).to.equal(
       "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
     );
   });
   it("getCampaign", async function () {
     const campaign = await nftContract.getCampaign();
-    expect(campaign.duration).to.equal(7);
+    expect(campaign.endTime).to.equal(2222222222);
   });
 
   it("claim", async function () {
-    // await nftContract.claim();
+    //await nftContract.claim(owner.address);
     await lootboxController.connect(owner).claim(nftContract.address);
 
     const ids = await nftContract.getUserCampaignIDs(owner.address);
-    expect(ids[0]).to.equal(2);
+    expect(ids[0]).to.equal(1);
     expect(ids.length).to.equal(1);
 
-    const balance = await nftContract.balanceOf(owner.address, 2);
+    const balance = await nftContract.balanceOf(owner.address, 1);
     expect(balance).to.equal(1);
 
-    const [appearance, fightingPower, level] = await nftContract.getCampaignMetadata(2);
+    const [appearance, fightingPower, level] = await nftContract.getCampaignMetadata(1);
     console.log("appearance", appearance);
     console.log("fightingPower", fightingPower);
     console.log("level", level);
@@ -109,6 +113,6 @@ describe("Lootbox TEST...", function () {
 
     await lootboxController.connect(alice).claim(nftContract.address);
 
-    expect(await nftContract.balanceOf(alice.address, 2)).to.equal(1);
+    expect(await nftContract.balanceOf(alice.address, 1)).to.equal(1);
   });
 });

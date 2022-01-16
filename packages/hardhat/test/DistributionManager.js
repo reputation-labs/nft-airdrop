@@ -97,7 +97,8 @@ describe("DistributionManager contract", function () {
     await DistributionManager.launchCampaignLootbox(
       "Common NFT Campaign",
       "ipfs://...",
-      7,
+      7, 
+      9, 9, 9,
       ["0x0000000000000000000000000000000000000001"]
     );
 

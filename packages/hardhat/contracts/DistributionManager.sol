@@ -2,7 +2,6 @@
 pragma solidity 0.8.4;
 
 import "./interfaces/IDistributionFactory.sol";
-import "./interfaces/IDistributionFactoryLootbox.sol";
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
@@ -15,7 +14,7 @@ contract DistributionManager is Initializable {
     uint public lootboxAmount;
 
     IDistributionFactory public commonNFTFactory;
-    IDistributionFactoryLootbox public lootboxFactory;
+    IDistributionFactory public lootboxFactory;
 
     address public controller;
 
@@ -61,6 +60,9 @@ contract DistributionManager is Initializable {
         string memory campaignName,
         string memory tokenURI,
         uint256 duration,   // days
+        uint8 appearanceMax,//1-Max,Max > 0
+        uint8 fightingPowerMax,//1-Max,Max > 0
+        uint8 levelMax,//1-Max,Max > 0
         address[] memory canMintErc721
     ) external {
         require(address(lootboxFactory) != address(0), "LootboxFactory is not set");
@@ -73,6 +75,9 @@ contract DistributionManager is Initializable {
             campaignName,
             tokenURI,
             block.timestamp + duration * 24 * 3600,
+            appearanceMax,
+            fightingPowerMax,
+            levelMax,
             canMintErc721,
             controller
         );
@@ -89,7 +94,7 @@ contract DistributionManager is Initializable {
         commonNFTFactory = _commonNFTFactory;
     }
 
-    function setLootboxFactory(IDistributionFactoryLootbox _lootboxFactory) external {
+    function setLootboxFactory(IDistributionFactory _lootboxFactory) external {
         require(address(_lootboxFactory) != address(0), "LootboxFactory should not be 0 address");
 
         lootboxFactory = _lootboxFactory;
