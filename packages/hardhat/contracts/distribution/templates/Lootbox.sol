@@ -13,9 +13,6 @@ import "./CommonNFT.sol";
 contract Lootbox is ERC1155Proxy {
     using SafeMathUpgradeable for uint256;
 
-
- using SafeMathUpgradeable for uint256;
-
     struct Campaign {
         string campaignName;
         string tokenURI;
@@ -49,7 +46,7 @@ contract Lootbox is ERC1155Proxy {
         owner = msg.sender;
     }
 
-   
+
     function getCurrentOwner() public view returns (address) {
         return owner;
     }
@@ -66,7 +63,7 @@ contract Lootbox is ERC1155Proxy {
 
     function claim() public returns (bool) {
         require(isClaimable(msg.sender), "You cannot claim this token");
-        
+
         ERC1155Proxy.mint(msg.sender, 1, 1, "");
         return false;
     }
@@ -76,4 +73,22 @@ contract Lootbox is ERC1155Proxy {
     function getNextId() private view returns (uint256 nextId) {
         return currentCampaignId.add(1);
     }
+
+    function ramdom()
+        private
+        view
+        returns (uint256)
+    {
+        return
+            uint256(
+                keccak256(
+                    abi.encodePacked(
+                        block.difficulty,
+                        block.timestamp,
+                        msg.sender
+                    )
+                )
+            );
+    }
+
 }
