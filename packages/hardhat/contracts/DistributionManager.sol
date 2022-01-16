@@ -11,8 +11,6 @@ contract DistributionManager {
     uint public commonNFTAmount;
     uint public lootboxAmount;
 
-
-
     IDistributionFactory public commonNFTFactory;
     IDistributionFactory public lootboxFactory;
 
@@ -22,49 +20,52 @@ contract DistributionManager {
         uint8 appearance,
         uint8 fightingPower,
         uint8 level,
-        address[] memory canMintErc721) external {
+        address[] memory canMintErc721,
+        address controller
+    ) external {
         require(address(commonNFTFactory) != address(0), "CommonNFTFactory is not set");
 
         commonNFTAmount = commonNFTAmount + 1;
 
-        address newCampaign = commonNFTFactory.create(commonNFTAmount,
+        address newCampaign = commonNFTFactory.create(
+            commonNFTAmount,
             campaignName,
             tokenURI,
             appearance,
             fightingPower,
             level,
-            canMintErc721
+            canMintErc721,
+            controller
         );
- 
-        // CommonNFT(newCampaign).initialize("ipfs://");
+
         _campaigns.push(address(newCampaign));
-        
+
         userToCampaign[msg.sender].push(address(newCampaign));
         campaignToUser[address(newCampaign)] = msg.sender;
     }
 
-    function launchCampaignLootbox( string memory campaignName,
-        string memory tokenURI,
-        uint8 appearance,
-        uint8 fightingPower,
-        uint8 level,
-        address[] memory canMintErc721) external {
-        require(address(lootboxFactory) != address(0), "LootboxFactory is not set");
+    // function launchCampaignLootbox( string memory campaignName,
+    //     string memory tokenURI,
+    //     uint8 appearance,
+    //     uint8 fightingPower,
+    //     uint8 level,
+    //     address[] memory canMintErc721) external {
+    //     require(address(lootboxFactory) != address(0), "LootboxFactory is not set");
 
-        lootboxAmount = lootboxAmount + 1;
+    //     lootboxAmount = lootboxAmount + 1;
 
-        address newCampaign = lootboxFactory.create(lootboxAmount,
-            campaignName,
-            tokenURI,
-            appearance,
-            fightingPower,
-            level,
-            canMintErc721);
+    //     address newCampaign = lootboxFactory.create(lootboxAmount,
+    //         campaignName,
+    //         tokenURI,
+    //         appearance,
+    //         fightingPower,
+    //         level,
+    //         canMintErc721);
 
-        _campaigns.push(address(newCampaign));
-        userToCampaign[msg.sender].push(address(newCampaign));
-        campaignToUser[address(newCampaign)] = msg.sender;
-    }
+    //     _campaigns.push(address(newCampaign));
+    //     userToCampaign[msg.sender].push(address(newCampaign));
+    //     campaignToUser[address(newCampaign)] = msg.sender;
+    // }
 
     function setCommonNFTFactory(IDistributionFactory _commonNFTFactory) external {
         require(address(_commonNFTFactory) != address(0), "CommonNFTFactory should not be 0 address");

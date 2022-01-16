@@ -24,12 +24,13 @@ contract ERC1155Proxy is
 
     string public name;
 
-    mapping (address => uint) public userTotalIDSupplies;    // id 1: 10; id 2: 0; id 3: 0 = 10
+    // mapping (address => uint) public userTotalIDSupplies;    // id 1: 10; id 2: 0; id 3: 0 = 10
 
     function initialize(
-        string memory _uri
-    ) public virtual override initializer {
-        __ERC1155Proxy_init(_uri, msg.sender);
+        string memory _uri,
+        address _controller
+    ) public virtual initializer {
+        __ERC1155Proxy_init(_uri, _controller);
     }
 
     /// @notice Perform inherited contracts' initializations

@@ -14,5 +14,7 @@ interface IDistributionFactory {
         uint8 appearance,
         uint8 fightingPower,
         uint8 level,
-        address[] memory canMintErc721) external returns (address);
+        address[] memory canMintErc721,
+        address controller
+    ) external returns (address);
 }

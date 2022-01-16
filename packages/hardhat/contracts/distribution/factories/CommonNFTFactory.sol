@@ -10,7 +10,8 @@ contract CommonNFTFactory {
         uint8 appearance,
         uint8 fightingPower,
         uint8 level,
-        address[] memory canMintErc721
+        address[] memory canMintErc721,
+        address controller
     ) external returns(address) {
         CommonNFT.Campaign memory campaign;
         campaign.campaignName = campaignName;
@@ -19,10 +20,11 @@ contract CommonNFTFactory {
         campaign.fightingPower=fightingPower;
         campaign.level=level;
         campaign.canMintErc721 = canMintErc721;
-        
+
 
         CommonNFT newCampaign = new CommonNFT{salt: keccak256(abi.encode(msg.sender, index))}(
-            campaign
+            campaign,
+            controller
         );
 
         return address(newCampaign);
