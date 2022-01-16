@@ -72,8 +72,8 @@ describe("Lootbox TEST...", function () {
     console.log("appearance", appearance);
     console.log("fightingPower", fightingPower);
     console.log("level", level);
-    expect(level).to.be.above(1);
-    expect(level).to.be.below(9);
+    expect(level).to.be.above(0);
+    expect(level).to.be.below(10);
   });
 
   it("alice claim without nft", async function () {

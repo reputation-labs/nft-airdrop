@@ -7,20 +7,8 @@ pragma solidity 0.8.4;
 /// @dev All ERC1155 tokens minted by this contract are stored on SeriesVault
 /// @dev This contract exists solely to decrease the size of the deployed SeriesController
 /// bytecode so it can be lower than the Spurious Dragon bytecode size limit
-interface IDistributionFactory {
+interface IDistributionFactoryLootbox {
     function create(
-        uint256 index,
-        string memory campaignName,
-        string memory tokenURI,
-        uint256 endTime,
-        uint8 appearance,
-        uint8 fightingPower,
-        uint8 level,
-        address[] memory canMintErc721,
-        address controller
-    ) external returns (address);
-    
-    function createLootbox(
         uint256 index,
         string memory campaignName,
         string memory tokenURI,

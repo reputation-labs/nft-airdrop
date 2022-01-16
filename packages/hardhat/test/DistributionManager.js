@@ -55,7 +55,7 @@ describe("DistributionManager contract", function () {
     expect(campaigns.length).to.equal(0);
   });
 
-  it("create a campaign", async function () {
+  it("launchCampaignCommonNFT create a campaign", async function () {
     await DistributionManager.launchCampaignCommonNFT(
       "Common NFT Campaign",
       "ipfs://...",
@@ -84,5 +84,33 @@ describe("DistributionManager contract", function () {
     expect(minterRole).to.equal(
       "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6"
     );
+  });
+  it("launchCampaignLootbox create a campaign", async function () {
+
+    await DistributionManager.launchCampaignLootbox(
+      "Common NFT Campaign",
+      "ipfs://...",
+      7,
+      ["0x0000000000000000000000000000000000000001"]
+    );
+
+    // const campaigns = await DistributionManager.campaigns();
+    // const userCampaigns = await DistributionManager.userCampaigns(
+    //   owner.address
+    // );
+
+    // expect(campaigns.length).to.equal(1);
+    // expect(userCampaigns.length).to.equal(1);
+    // expect(userCampaigns[0]).to.equal(campaigns[0]);
+    // expect(campaigns[0]).not.to.equal("");
+    // const campaignContract = await ethers.getContractAt(
+    //   "Lootbox",
+    //   campaigns[0]
+    // );
+
+    // const minterRole = await campaignContract.MINTER_ROLE();
+    // expect(minterRole).to.equal(
+    //   "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6"
+    // );
   });
 });
