@@ -17,6 +17,7 @@ import { useTokenList } from "eth-hooks/dapps/dex";
 import { Button } from "antd";
 import getRandomColor from "../helpers/randomColor";
 import tinyColor from "tinycolor2";
+import { useCampaign } from "./CampaignContext";
 
 function AddressTag(address) {
   const bgColor = getRandomColor();
@@ -35,13 +36,8 @@ export default function ClaimNft({ address, tx, readContracts, writeContracts })
   const [campaigns, setCampaigns] = useState([]);
   const [campaignsInfo, setCampaignsInfo] = useState([]);
 
-  //   appearance,
-  // campaignName,
-  // canMintErc721,
-  // endTime,
-  // fightingPower,
-  // level,
-  // tokenURI
+  const campaignContext = useCampaign();
+
   useEffect(() => {
     if (!readContracts?.DistributionManager || !readContracts?.Controller) return;
 
@@ -55,6 +51,14 @@ export default function ClaimNft({ address, tx, readContracts, writeContracts })
 
       setCampaigns(campaigns);
       setCampaignsInfo(infos);
+
+      const campMap = Object.values(campaigns).reduce((acc, campaignAddr, index) => {
+        return {
+          ...acc,
+          [campaignAddr]: infos[index],
+        };
+      });
+      campaignContext.setCampaignMap(campMap);
     })();
   }, []);
 

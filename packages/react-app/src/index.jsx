@@ -10,6 +10,7 @@ import { defaultTheme } from "./theme";
 import "./index.css";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/700.css";
+import CampaignProvider from "./views/CampaignContext";
 
 const subgraphUri = "http://localhost:8000/subgraphs/name/scaffold-eth/your-contract";
 
@@ -37,7 +38,9 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <ChakraProvider theme={theme}>
       <NftProvider fetcher={["ethers", ethersConfig]}>
-        <App subgraphUri={subgraphUri} />
+        <CampaignProvider>
+          <App subgraphUri={subgraphUri} />
+        </CampaignProvider>
       </NftProvider>
     </ChakraProvider>
   </ApolloProvider>,

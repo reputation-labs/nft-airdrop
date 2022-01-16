@@ -1,102 +1,43 @@
-import { useNft } from "use-nft";
 import { List } from "antd";
-import { Divider, Image, Text } from "@chakra-ui/react";
+import { Divider, Heading, Image } from "@chakra-ui/react";
 
-import React, { useState, useEffect } from "react";
-import { Contract } from "ethers";
-
-export const ERC1155ABI = [
-  // balanceOf
-  {
-    inputs: [
-      { internalType: "address", name: "owner", type: "address" },
-      { internalType: "uint256", name: "id", type: "uint256" },
-    ],
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    name: "balanceOf",
-    type: "function",
-    payable: false,
-    constant: true,
-  },
-];
-
-// account is optional
-function getContract(address, ABI, library, account) {
-  return new Contract(address, ABI, getProviderOrSigner(library, account));
-}
-function getProviderOrSigner(library, account) {
-  return account ? getSigner(library, account) : library;
-}
-
-function getErc1155TokenContract(library, tokenAddress, signerAccount) {
-  return getContract(tokenAddress, ERC1155ABI, library, signerAccount);
-}
+import { useCampaign } from "./CampaignContext";
 
 // useNft() is now ready to be used in your app. Pass
 // the NFT contract and token ID to fetch the metadata.
-function Nft({ address, tokenId }) {
-  const { loading, error, nft } = useNft(address, tokenId);
-
+function Nft(props) {
+  console.log(props);
   // nft.loading is true during load.
-  if (loading) return <List.Item>Loading…</List.Item>;
-
-  // nft.error is an Error instance in case of error.
-  if (error || !nft) {
-    console.dir(error);
-    return (
-      <List.Item>
-        <Text>Error on Nft {error?.message ?? ""}.</Text>
-      </List.Item>
-    );
-  }
+  if (!props?.appearance) return null;
 
   // You can now display the NFT metadata.
-  return (
-    <List.Item>
-      {/* //
-  //   extra={
-  //     <Image
-  //       width={272}
-  //       alt="Nft image"
-  //       src={item.metadata?.image}
-  //       fallbackSrc="https://via.placeholder.com/272"
-  //     />
-  //   }
-  // >
-  //   <List.Item.Meta title={<a href={item.href}>{item.name}</a>} />
-  //   Appearance: {item.name}
-  //   <Divider />
-  //   Fight Power: {item.fightingPower}
-  //   <Divider />
-  //   Level: {item.level} */}
 
-      <h1>{nft.name}</h1>
-      <img src={nft.image} alt="" />
-      <p>{nft.description}</p>
-      <p>Owner: {nft.owner}</p>
-      <p>Metadata URL: {nft.metadataUrl}</p>
+  // appearance: number;
+  // campaignName: string;
+  // canMintErc721: string[];
+  // endTime: BigNumber;
+  // fightingPower: number;
+  // level: number;
+  // // image url
+  // tokenURI: string;
+  return (
+    <List.Item
+      extra={<Image width={272} alt="Nft image" src={props?.tokenURI} fallbackSrc="https://via.placeholder.com/272" />}
+    >
+      <List.Item.Meta title={<Heading>{props.campaignName}</Heading>} />
+      Level: {props.level}
+      <Divider />
+      Fight Power: {props.fightingPower}
+      <Divider />
+      Appearance: {props.appearance}
     </List.Item>
   );
 }
 
-export default function MyNft({ address, readContracts, localProvider, signerAccount }) {
-  const [userCampaigns, setUserCampaigns] = useState([]);
+export default function MyNft() {
+  const campaignContext = useCampaign();
 
-  useEffect(() => {
-    console.log(address, readContracts);
-    if (!address || !readContracts?.DistributionManager) {
-      return;
-    }
-
-    (async () => {
-      const campaigns = await readContracts.DistributionManager.userCampaigns(address);
-      campaigns.map(async (campaignAddr, i) => {
-        const contract = getErc1155TokenContract(localProvider, campaignAddr, signerAccount);
-        console.log('contract', contract);
-      });
-      // setUserCampaigns(campaigns);
-    })();
-  }, [address, readContracts]);
+  const { campaignMap } = campaignContext;
 
   return (
     <div>
@@ -106,8 +47,8 @@ export default function MyNft({ address, readContracts, localProvider, signerAcc
         <List
           itemLayout="vertical"
           size="large"
-          dataSource={userCampaigns}
-          renderItem={item => <Nft key={item} address={item} tokenId={1} />}
+          dataSource={Object.values(campaignMap)}
+          renderItem={item => <Nft key={item} {...item} />}
         />
       </div>
     </div>
