@@ -26,8 +26,7 @@ contract DistributionManager is Initializable {
     function launchCampaignCommonNFT(
         string memory campaignName,
         string memory tokenURI,
-
-        uint8 duration,   // days
+        uint256 duration,   // days
         uint8 appearance,
         uint8 fightingPower,
         uint8 level,

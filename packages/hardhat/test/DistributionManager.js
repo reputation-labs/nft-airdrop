@@ -60,7 +60,6 @@ describe("DistributionManager contract", function () {
   it("create a campaign", async function () {
     await DistributionManager.launchCampaignCommonNFT(
       "Common NFT Campaign",
-
       "ipfs://...",
       7,
       1,

@@ -8,7 +8,6 @@ contract CommonNFTFactory {
         uint index,
         string memory campaignName,
         string memory tokenURI,
-
         uint256 endTime,
         uint8 appearance,
         uint8 fightingPower,
