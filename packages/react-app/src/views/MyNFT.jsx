@@ -1,154 +1,115 @@
-import { MessageOutlined, LikeOutlined, StarOutlined } from "@ant-design/icons";
-import { utils } from "ethers";
-import { DatePicker, List, Avatar, Space } from "antd";
-import {
-    Button,
-    Divider,
-    Input,
-    Progress,
-    Spinner,
-    Switch,
-    RangeSlider,
-    RangeSliderTrack,
-    RangeSliderFilledTrack,
-    RangeSliderThumb,
-    Box,
-    Checkbox,
-    FormControl,
-    FormHelperText,
-    FormLabel,
-    Heading,
-    HStack,
-    IconButton,
-    Link,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuList,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    NumberDecrementStepper,
-    NumberIncrementStepper,
-    NumberInput,
-    NumberInputField,
-    NumberInputStepper,
-    Radio,
-    RadioGroup,
-    Select,
-    Tab,
-    TabList,
-    TabPanel,
-    TabPanels,
-    Tabs,
-    Tag,
-    Text,
-    Textarea,
-    useDisclosure,
-    useToast,
-    VStack,
-} from "@chakra-ui/react";
-import { AddIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { useNft } from "use-nft";
+import { List } from "antd";
+import { Divider, Image, Text } from "@chakra-ui/react";
 
 import React, { useState, useEffect } from "react";
-import { Address, Balance, Events, Card } from "../components";
-import Moralis from 'moralis';
-Moralis.start({
-    serverUrl: 'https://payf36ne5o96.usemoralis.com:2053/server',
-    appId: 'B5xeTo90fBYukB8z33kawcCwJ5t4HXTRD1DD6GCq'
-})
+import { Contract } from "ethers";
 
-export default function ExampleUI({
-    purpose,
-    address,
-    mainnetProvider,
-    localProvider,
-    yourLocalBalance,
-    price,
-    tx,
-    readContracts,
-    writeContracts,
-}) {
-    const [moralis, setMoralis] = useState();
-    const [nftList ,setNftList] = useState([]);
-    const [newPurpose, setNewPurpose] = useState("loading...");
-    const toast = useToast();
+export const ERC1155ABI = [
+  // balanceOf
+  {
+    inputs: [
+      { internalType: "address", name: "owner", type: "address" },
+      { internalType: "uint256", name: "id", type: "uint256" },
+    ],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "balanceOf",
+    type: "function",
+    payable: false,
+    constant: true,
+  },
+];
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
+// account is optional
+function getContract(address, ABI, library, account) {
+  return new Contract(address, ABI, getProviderOrSigner(library, account));
+}
+function getProviderOrSigner(library, account) {
+  return account ? getSigner(library, account) : library;
+}
 
-    useEffect(async () => {
-        if (!moralis) {
-            const user = await Moralis.authenticate({ signingMessage: "Log in using Moralis" })
-                .then(function (user) {
-                    console.log("logged in user:", user);
-                    console.log(user.get("ethAddress"));
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            Moralis.Web3.getNFTs({
-                offset: 0,
-                limit: 20,
-                address: '0x4fc49473f655633427155badc3f47297f9f80369' // 替换成当前钱包的 account
-            }).then(res => {
-                console.log('getNFTchain.....')
-                console.log(res);
-                setNftList(res.slice(0, 5))
-            });
-        }
-        return () => {
+function getErc1155TokenContract(library, tokenAddress, signerAccount) {
+  return getContract(tokenAddress, ERC1155ABI, library, signerAccount);
+}
 
-        }
-    }, [1])
+// useNft() is now ready to be used in your app. Pass
+// the NFT contract and token ID to fetch the metadata.
+function Nft({ address, tokenId }) {
+  const { loading, error, nft } = useNft(address, tokenId);
 
-    const IconText = ({ icon, text }) => (
-        <Space>
-            {React.createElement(icon)}
-            {text}
-        </Space>
-    );
+  // nft.loading is true during load.
+  if (loading) return <List.Item>Loading…</List.Item>;
 
-
+  // nft.error is an Error instance in case of error.
+  if (error || !nft) {
+    console.dir(error);
     return (
-        <div>
-            {/*
-        ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
-      */}
-            <div style={{ border: "1px solid #cccccc", padding: 16, width: 600, margin: "auto", marginTop: 64 }}>
-                <h2>My NFTs</h2>
-
-                <Divider />
-                <List
-                    itemLayout="vertical"
-                    size="large"
-                    dataSource={nftList}
-
-                    renderItem={item => (
-                        <List.Item
-                            key={item.name}
-                            extra={
-                                <img
-                                    width={272}
-                                    alt="logo"
-                                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                                />
-                            }
-                        ><List.Item.Meta
-                                title={<a href={item.href}>{item.name}</a>}
-                            />
-      Appearance: {item.name}
-                            <Divider />
-      Fight Power: {item.fightingPower}
-                            <Divider />
-      Level: {item.level}
-                        </List.Item>
-                    )}
-                />
-            </div>
-        </div>
+      <List.Item>
+        <Text>Error on Nft {error?.message ?? ""}.</Text>
+      </List.Item>
     );
+  }
+
+  // You can now display the NFT metadata.
+  return (
+    <List.Item>
+      {/* //
+  //   extra={
+  //     <Image
+  //       width={272}
+  //       alt="Nft image"
+  //       src={item.metadata?.image}
+  //       fallbackSrc="https://via.placeholder.com/272"
+  //     />
+  //   }
+  // >
+  //   <List.Item.Meta title={<a href={item.href}>{item.name}</a>} />
+  //   Appearance: {item.name}
+  //   <Divider />
+  //   Fight Power: {item.fightingPower}
+  //   <Divider />
+  //   Level: {item.level} */}
+
+      <h1>{nft.name}</h1>
+      <img src={nft.image} alt="" />
+      <p>{nft.description}</p>
+      <p>Owner: {nft.owner}</p>
+      <p>Metadata URL: {nft.metadataUrl}</p>
+    </List.Item>
+  );
+}
+
+export default function MyNft({ address, readContracts, localProvider, signerAccount }) {
+  const [userCampaigns, setUserCampaigns] = useState([]);
+
+  useEffect(() => {
+    console.log(address, readContracts);
+    if (!address || !readContracts?.DistributionManager) {
+      return;
+    }
+
+    (async () => {
+      const campaigns = await readContracts.DistributionManager.userCampaigns(address);
+      campaigns.map(async (campaignAddr, i) => {
+        const contract = getErc1155TokenContract(localProvider, campaignAddr, signerAccount);
+        console.log('contract', contract);
+      });
+      // setUserCampaigns(campaigns);
+    })();
+  }, [address, readContracts]);
+
+  return (
+    <div>
+      <div style={{ border: "1px solid #cccccc", padding: 16, width: 600, margin: "auto", marginTop: 64 }}>
+        <h2>My NFTs</h2>
+
+        <List
+          itemLayout="vertical"
+          size="large"
+          dataSource={userCampaigns}
+          renderItem={item => <Nft key={item} address={item} tokenId={1} />}
+        />
+      </div>
+    </div>
+  );
 }

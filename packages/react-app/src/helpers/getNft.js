@@ -17,7 +17,11 @@ export const getNfts = async ({ chain = "polygon", keyword } = {}) => {
         "X-API-Key": "EgaLxSjdg6VD95EdJuk02idFwT1OjxXzYZ1tl6vXslzrBc34iwWbqb94jh04lqhn",
       },
     },
-  ).then(res => res.json());
+  )
+    .then(res => res.json())
+    .catch(e => {
+      console.log("Error on get Nfts by chain", e);
+    });
   if (resp) {
     const filteredResult = uniqBy(resp?.result ?? [], nft => nft.token_address);
     const result = await resolveResultAsync(filteredResult);

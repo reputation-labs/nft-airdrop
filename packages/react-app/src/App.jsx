@@ -494,15 +494,9 @@ function App(props) {
           <Route path="/MyNFT">
             <MyNFT
               address={address}
-              userSigner={userSigner}
-              mainnetProvider={mainnetProvider}
-              localProvider={localProvider}
-              yourLocalBalance={yourLocalBalance}
-              price={price}
-              tx={tx}
-              writeContracts={writeContracts}
               readContracts={readContracts}
-              purpose={purpose}
+              localProvider={localProvider}
+              userSigner={userSigner}
             />
           </Route>
         </Switch>

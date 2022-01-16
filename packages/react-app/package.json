@@ -48,9 +48,9 @@
     "graphiql": "^1.0.5",
     "graphql": "^15.3.0",
     "isomorphic-fetch": "^3.0.0",
-    "moralis": "^0.0.184",
     "lodash.uniqby": "^4.7.0",
     "moment": "^2.29.1",
+    "moralis": "^0.0.184",
     "node-watch": "^0.7.1",
     "postcss": "^8.2.6",
     "qrcode.react": "^1.0.0",
@@ -65,6 +65,7 @@
     "react-scripts": "4.0.0",
     "tinycolor2": "^1.4.2",
     "typescript": "^4.4.4",
+    "use-nft": "^0.10.2",
     "walletlink": "^2.1.5",
     "web3modal": "^1.9.1"
   },

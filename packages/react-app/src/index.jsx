@@ -2,6 +2,9 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { NftProvider } from "use-nft";
+import { getDefaultProvider } from "ethers";
+
 import { defaultTheme } from "./theme";
 
 import "./index.css";
@@ -25,10 +28,17 @@ const theme = extendTheme(defaultTheme, {
   config,
 });
 
+// We are using the "ethers" fetcher here.
+const ethersConfig = {
+  provider: getDefaultProvider("homestead"),
+};
+
 ReactDOM.render(
   <ApolloProvider client={client}>
     <ChakraProvider theme={theme}>
-      <App subgraphUri={subgraphUri} />
+      <NftProvider fetcher={["ethers", ethersConfig]}>
+        <App subgraphUri={subgraphUri} />
+      </NftProvider>
     </ChakraProvider>
   </ApolloProvider>,
   document.getElementById("root"),
