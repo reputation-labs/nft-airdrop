@@ -27,6 +27,7 @@ import deployedContracts from "./contracts/hardhat_contracts.json";
 import externalContracts from "./contracts/external_contracts";
 
 import Template from "./views/Template";
+import ClaimNFT from "./views/ClaimNFT";
 import { useContractConfig } from "./hooks";
 import Portis from "@portis/web3";
 import Fortmatic from "fortmatic";
@@ -443,7 +444,6 @@ function App(props) {
       {networkDisplay}
       <BrowserRouter>
         <Menu style={{ textAlign: "center" }} selectedKeys={[route]} mode="horizontal">
-
           <Menu.Item key="/template">
             <Link
               onClick={() => {
