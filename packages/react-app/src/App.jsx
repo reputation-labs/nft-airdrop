@@ -443,6 +443,27 @@ function App(props) {
       {networkDisplay}
       <BrowserRouter>
         <Menu style={{ textAlign: "center" }} selectedKeys={[route]} mode="horizontal">
+
+          <Menu.Item key="/template">
+            <Link
+              onClick={() => {
+                setRoute("/template");
+              }}
+              to="/template"
+            >
+              Template
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/claimnft">
+            <Link
+              onClick={() => {
+                setRoute("/claimnft");
+              }}
+              to="/claimnft"
+            >
+              Claim nft
+            </Link>
+          </Menu.Item>
           <Menu.Item key="/MyNFT">
             <Link
               onClick={() => {
@@ -453,52 +474,22 @@ function App(props) {
               MyNFT
             </Link>
           </Menu.Item>
-          <Menu.Item key="/template">
-            <Link
-              onClick={() => {
-                setRoute("/template");
-              }}
-              to="/template"
-            >
-              Hints
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/exampleui">
-            <Link
-              onClick={() => {
-                setRoute("/exampleui");
-              }}
-              to="/exampleui"
-            >
-              ExampleUI
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/mainnetdai">
-            <Link
-              onClick={() => {
-                setRoute("/mainnetdai");
-              }}
-              to="/mainnetdai"
-            >
-              Mainnet DAI
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/subgraph">
-            <Link
-              onClick={() => {
-                setRoute("/subgraph");
-              }}
-              to="/subgraph"
-            >
-              Subgraph
-            </Link>
-          </Menu.Item>
-
         </Menu>
 
         <Switch>
           <Route path="/template">
             <Template writeContracts={writeContracts} />
+          </Route>
+          <Route path="/claimnft">
+            <ClaimNFT
+              address={address}
+              yourLocalBalance={yourLocalBalance}
+              mainnetProvider={mainnetProvider}
+              price={price}
+              tx={tx}
+              writeContracts={writeContracts}
+              readContracts={readContracts}
+            />
           </Route>
           <Route path="/MyNFT">
             <MyNFT
@@ -512,47 +503,6 @@ function App(props) {
               writeContracts={writeContracts}
               readContracts={readContracts}
               purpose={purpose}
-            />
-          </Route>
-          <Route path="/mainnetdai">
-            <Contract
-              name="DAI"
-              customContract={mainnetContracts && mainnetContracts.contracts && mainnetContracts.contracts.DAI}
-              signer={userSigner}
-              provider={mainnetProvider}
-              address={address}
-              blockExplorer="https://etherscan.io/"
-              contractConfig={contractConfig}
-              chainId={1}
-            />
-            {/*
-            <Contract
-              name="UNI"
-              customContract={mainnetContracts && mainnetContracts.contracts && mainnetContracts.contracts.UNI}
-              signer={userSigner}
-              provider={mainnetProvider}
-              address={address}
-              blockExplorer="https://etherscan.io/"
-            />
-            */}
-          </Route>
-          <Route path="/subgraph">
-            <Subgraph
-              subgraphUri={props.subgraphUri}
-              tx={tx}
-              writeContracts={writeContracts}
-              mainnetProvider={mainnetProvider}
-            />
-          </Route>
-          <Route path="/claimnft">
-            <ClaimNFT
-              address={address}
-              yourLocalBalance={yourLocalBalance}
-              mainnetProvider={mainnetProvider}
-              price={price}
-              tx={tx}
-              writeContracts={writeContracts}
-              readContracts={readContracts}
             />
           </Route>
         </Switch>
