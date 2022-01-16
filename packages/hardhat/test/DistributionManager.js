@@ -4,6 +4,8 @@ const { ethers, upgrades } = require("hardhat");
 describe("DistributionManager contract", function () {
   let DistributionManager;
   let owner;
+  let alice;
+  let bob;
   let erc721NFT;
   let controller;
   before(async function () {
@@ -12,7 +14,7 @@ describe("DistributionManager contract", function () {
   });
 
   beforeEach(async function () {
-    [owner] = await ethers.getSigners();
+    [owner, alice, bob] = await ethers.getSigners();
 
     const erc271ContractFactory = await ethers.getContractFactory("TestERC721");
     const erc271Contract = await erc271ContractFactory.deploy();
@@ -93,33 +95,35 @@ describe("DistributionManager contract", function () {
   });
 
   it("launchCampaignLootbox create a campaign", async function () {
-
     await DistributionManager.launchCampaignLootbox(
       "Common NFT Campaign",
       "ipfs://...",
-      7, 
-      9, 9, 9,
-      ["0x0000000000000000000000000000000000000001"]
+      7,
+      9,
+      9,
+      9,
+      [erc721NFT.address]
     );
 
-    // const campaigns = await DistributionManager.campaigns();
-    // const userCampaigns = await DistributionManager.userCampaigns(
-    //   owner.address
-    // );
+    const campaigns = await DistributionManager.campaigns();
+    const userCampaigns = await DistributionManager.userCampaigns(
+      owner.address
+    );
+    const nftContract = campaigns[0];
 
-    // expect(campaigns.length).to.equal(1);
-    // expect(userCampaigns.length).to.equal(1);
-    // expect(userCampaigns[0]).to.equal(campaigns[0]);
-    // expect(campaigns[0]).not.to.equal("");
-    // const campaignContract = await ethers.getContractAt(
-    //   "Lootbox",
-    //   campaigns[0]
-    // );
+    expect(campaigns.length).to.equal(1);
+    expect(userCampaigns.length).to.equal(1);
+    expect(userCampaigns[0]).to.equal(nftContract);
+    expect(nftContract).not.to.equal("");
+    const campaignContract = await ethers.getContractAt(
+      "Lootbox",
+      campaigns[0]
+    );
 
-    // const minterRole = await campaignContract.MINTER_ROLE();
-    // expect(minterRole).to.equal(
-    //   "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6"
-    // );
+    await controller.connect(owner).claim(nftContract);
+
+    const balance = await campaignContract.balanceOf(owner.address, 1);
+    expect(balance).to.equal(1);
   });
 
   it("get campaign info", async function () {
@@ -161,5 +165,33 @@ describe("DistributionManager contract", function () {
 
     const balance = await campaignContract.balanceOf(owner.address, 1);
     expect(balance).to.equal(1);
+  });
+
+  it("anyone can claim", async function () {
+    await DistributionManager.launchCampaignLootbox(
+      "Lootbox airdrop",
+      "ipfs://...",
+      7,
+      1,
+      1,
+      4,
+      []
+    );
+
+    const campaigns = await DistributionManager.campaigns();
+
+    expect(campaigns.length).to.equal(1);
+
+    const nftContract = campaigns[0];
+
+    expect(await controller.isClaimable(nftContract, owner.address)).to.equal(
+      true
+    );
+    expect(await controller.isClaimable(nftContract, alice.address)).to.equal(
+      true
+    );
+    expect(await controller.isClaimable(nftContract, bob.address)).to.equal(
+      true
+    );
   });
 });
