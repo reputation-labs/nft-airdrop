@@ -4,7 +4,6 @@ const baseStyle: SystemStyleObject = {
   fontSize: "md",
   marginEnd: 3,
   mb: 2,
-  color: "white",
   fontWeight: "medium",
   transitionProperty: "common",
   transitionDuration: "normal",
