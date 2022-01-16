@@ -1,25 +1,12 @@
 import { List } from "antd";
 import { Divider, Heading, Image } from "@chakra-ui/react";
-
 import { useCampaign } from "./CampaignContext";
 
-// useNft() is now ready to be used in your app. Pass
-// the NFT contract and token ID to fetch the metadata.
+import { useState, useEffect } from "react";
+
 function Nft(props) {
-  console.log(props);
-  // nft.loading is true during load.
   if (!props?.appearance) return null;
 
-  // You can now display the NFT metadata.
-
-  // appearance: number;
-  // campaignName: string;
-  // canMintErc721: string[];
-  // endTime: BigNumber;
-  // fightingPower: number;
-  // level: number;
-  // // image url
-  // tokenURI: string;
   return (
     <List.Item
       extra={<Image width={272} alt="Nft image" src={props?.tokenURI} fallbackSrc="https://via.placeholder.com/272" />}
@@ -34,10 +21,22 @@ function Nft(props) {
   );
 }
 
-export default function MyNft() {
-  const campaignContext = useCampaign();
+export default function MyNft({ address, readContracts, localProvider, signerAccount }) {
+  const { campaignMap } = useCampaign();
+  const [userCampaigns, setUserCampaigns] = useState([]);
 
-  const { campaignMap } = campaignContext;
+  useEffect(() => {
+    if (!address || !readContracts?.DistributionManager) {
+      return;
+    }
+
+    (async () => {
+      const campaigns = await readContracts.DistributionManager.userCampaigns(address);
+      const userCampaignInfos = campaigns.map(campaignAddress => ({ ...campaignMap[campaignAddress] }));
+      console.log(userCampaignInfos);
+      setUserCampaigns(userCampaignInfos);
+    })();
+  }, [address, readContracts]);
 
   return (
     <div>
@@ -47,7 +46,7 @@ export default function MyNft() {
         <List
           itemLayout="vertical"
           size="large"
-          dataSource={Object.values(campaignMap)}
+          dataSource={userCampaigns}
           renderItem={item => <Nft key={item} {...item} />}
         />
       </div>

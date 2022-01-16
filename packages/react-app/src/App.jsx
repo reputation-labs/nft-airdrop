@@ -32,6 +32,7 @@ import { useContractConfig } from "./hooks";
 import Portis from "@portis/web3";
 import Fortmatic from "fortmatic";
 import Authereum from "authereum";
+import CampaignProvider from "./views/CampaignContext";
 
 const { ethers } = require("ethers");
 /*
@@ -438,87 +439,89 @@ function App(props) {
   }
 
   return (
-    <div className="App">
-      {/* ✏️ Edit the header and change the title to your project name */}
-      <Header />
-      {networkDisplay}
-      <BrowserRouter>
-        <Menu style={{ textAlign: "center" }} selectedKeys={[route]} mode="horizontal">
-          <Menu.Item key="/template">
-            <Link
-              onClick={() => {
-                setRoute("/template");
-              }}
-              to="/template"
-            >
-              Template
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/claimnft">
-            <Link
-              onClick={() => {
-                setRoute("/claimnft");
-              }}
-              to="/claimnft"
-            >
-              Claim nft
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/MyNFT">
-            <Link
-              onClick={() => {
-                setRoute("/MyNFT");
-              }}
-              to="/MyNFT"
-            >
-              MyNFT
-            </Link>
-          </Menu.Item>
-        </Menu>
+    <CampaignProvider contracts={readContracts}>
+      <div className="App">
+        {/* ✏️ Edit the header and change the title to your project name */}
+        <Header />
+        {networkDisplay}
+        <BrowserRouter>
+          <Menu style={{ textAlign: "center" }} selectedKeys={[route]} mode="horizontal">
+            <Menu.Item key="/template">
+              <Link
+                onClick={() => {
+                  setRoute("/template");
+                }}
+                to="/template"
+              >
+                Template
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="/claimnft">
+              <Link
+                onClick={() => {
+                  setRoute("/claimnft");
+                }}
+                to="/claimnft"
+              >
+                Claim nft
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="/MyNFT">
+              <Link
+                onClick={() => {
+                  setRoute("/MyNFT");
+                }}
+                to="/MyNFT"
+              >
+                MyNFT
+              </Link>
+            </Menu.Item>
+          </Menu>
 
-        <Switch>
-          <Route path="/template">
-            <Template writeContracts={writeContracts} />
-          </Route>
-          <Route path="/claimnft">
-            <ClaimNFT
-              address={address}
-              yourLocalBalance={yourLocalBalance}
-              mainnetProvider={mainnetProvider}
-              price={price}
-              tx={tx}
-              writeContracts={writeContracts}
-              readContracts={readContracts}
-            />
-          </Route>
-          <Route path="/MyNFT">
-            <MyNFT
-              address={address}
-              readContracts={readContracts}
-              localProvider={localProvider}
-              userSigner={userSigner}
-            />
-          </Route>
-        </Switch>
-      </BrowserRouter>
+          <Switch>
+            <Route path="/template">
+              <Template writeContracts={writeContracts} />
+            </Route>
+            <Route path="/claimnft">
+              <ClaimNFT
+                address={address}
+                yourLocalBalance={yourLocalBalance}
+                mainnetProvider={mainnetProvider}
+                price={price}
+                tx={tx}
+                writeContracts={writeContracts}
+                readContracts={readContracts}
+              />
+            </Route>
+            <Route path="/MyNFT">
+              <MyNFT
+                address={address}
+                readContracts={readContracts}
+                localProvider={localProvider}
+                userSigner={userSigner}
+              />
+            </Route>
+          </Switch>
+        </BrowserRouter>
 
-      {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
-      <div style={{ position: "fixed", textAlign: "right", right: 0, top: 0, padding: 10 }}>
-        <Account
-          address={address}
-          localProvider={localProvider}
-          userSigner={userSigner}
-          mainnetProvider={mainnetProvider}
-          price={price}
-          targetNetwork={targetNetwork}
-          web3Modal={web3Modal}
-          loadWeb3Modal={loadWeb3Modal}
-          logoutOfWeb3Modal={logoutOfWeb3Modal}
-          blockExplorer={blockExplorer}
-        />
-        {faucetHint}
+        {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
+        <div style={{ position: "fixed", textAlign: "right", right: 0, top: 0, padding: 10 }}>
+          <Account
+            address={address}
+            localProvider={localProvider}
+            userSigner={userSigner}
+            mainnetProvider={mainnetProvider}
+            price={price}
+            targetNetwork={targetNetwork}
+            web3Modal={web3Modal}
+            loadWeb3Modal={loadWeb3Modal}
+            logoutOfWeb3Modal={logoutOfWeb3Modal}
+            blockExplorer={blockExplorer}
+          />
+          {faucetHint}
+        </div>
       </div>
-    </div>
+    </CampaignProvider>
   );
 }
 

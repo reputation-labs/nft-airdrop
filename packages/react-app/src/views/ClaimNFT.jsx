@@ -33,34 +33,11 @@ export default function ClaimNft({ address, tx, readContracts, writeContracts })
   // Get a list of tokens from a tokenlist -> see tokenlists.org!
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [campaigns, setCampaigns] = useState([]);
-  const [campaignsInfo, setCampaignsInfo] = useState([]);
 
   const campaignContext = useCampaign();
 
-  useEffect(() => {
-    if (!readContracts?.DistributionManager || !readContracts?.Controller) return;
-
-    (async () => {
-      const campaigns = await readContracts?.DistributionManager?.campaigns();
-      const infos = await Promise.all(
-        campaigns?.map(nftContract => {
-          return readContracts?.Controller?.getCampaign(nftContract);
-        }),
-      );
-
-      setCampaigns(campaigns);
-      setCampaignsInfo(infos);
-
-      const campMap = Object.values(campaigns).reduce((acc, campaignAddr, index) => {
-        return {
-          ...acc,
-          [campaignAddr]: infos[index],
-        };
-      });
-      campaignContext.setCampaignMap(campMap);
-    })();
-  }, []);
+  const campaigns = Object.keys(campaignContext.campaignMap);
+  const campaignsInfo = Object.values(campaignContext.campaignMap);
 
   const handleClaim = async i => {
     const nftContract = campaigns[i];

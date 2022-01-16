@@ -2,15 +2,12 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-import { NftProvider } from "use-nft";
-import { getDefaultProvider } from "ethers";
 
 import { defaultTheme } from "./theme";
 
 import "./index.css";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/700.css";
-import CampaignProvider from "./views/CampaignContext";
 
 const subgraphUri = "http://localhost:8000/subgraphs/name/scaffold-eth/your-contract";
 
@@ -29,19 +26,10 @@ const theme = extendTheme(defaultTheme, {
   config,
 });
 
-// We are using the "ethers" fetcher here.
-const ethersConfig = {
-  provider: getDefaultProvider("homestead"),
-};
-
 ReactDOM.render(
   <ApolloProvider client={client}>
     <ChakraProvider theme={theme}>
-      <NftProvider fetcher={["ethers", ethersConfig]}>
-        <CampaignProvider>
-          <App subgraphUri={subgraphUri} />
-        </CampaignProvider>
-      </NftProvider>
+      <App subgraphUri={subgraphUri} />
     </ChakraProvider>
   </ApolloProvider>,
   document.getElementById("root"),
