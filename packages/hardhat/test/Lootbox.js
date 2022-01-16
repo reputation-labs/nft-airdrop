@@ -80,6 +80,57 @@ describe("Lootbox TEST...", function () {
     expect(level).to.be.below(10);
   });
 
+  it("claim appearance is less than 1", async function () {
+    const contractFactory = await ethers.getContractFactory("Lootbox");
+    const campaign = {
+      campaignName: "Test campaignName",
+      tokenURI: "https://www.example.com/tokenURI",
+      endTime: 2222222222,
+      appearance: 1,
+      fightingPower: 9,
+      level: 9,
+      // canMint1155: [erc721NFT.address],
+      canMintErc721: [erc721NFT.address],
+    };
+
+    nftContract = await contractFactory.deploy(campaign, lootboxController.address);
+
+    await expect(
+      lootboxController.connect(owner).claim(nftContract.address)
+    ).to.be.revertedWith("appearance must be greater than 1");
+  });
+  it("claim canMintErc721 is null", async function () {
+    const contractFactory = await ethers.getContractFactory("Lootbox");
+    const campaign = {
+      campaignName: "Test campaignName",
+      tokenURI: "https://www.example.com/tokenURI",
+      endTime: 2222222222,
+      appearance: 1,
+      fightingPower: 9,
+      level: 9,
+      // canMint1155: [erc721NFT.address],
+      canMintErc721: [],
+    };
+
+    nftContract = await contractFactory.deploy(campaign, lootboxController.address);
+
+    await lootboxController.connect(owner).claim(nftContract.address);
+
+    const ids = await nftContract.getUserCampaignIDs(owner.address);
+    expect(ids[0]).to.equal(1);
+    expect(ids.length).to.equal(1);
+
+    const balance = await nftContract.balanceOf(owner.address, 1);
+    expect(balance).to.equal(1);
+
+    const [appearance, fightingPower, level] = await nftContract.getCampaignMetadata(1);
+    console.log("appearance", appearance);
+    console.log("fightingPower", fightingPower);
+    console.log("level", level);
+    expect(level).to.be.above(0);
+    expect(level).to.be.below(10);
+  });
+
   it("alice claim without nft", async function () {
     const ids = await nftContract.getUserCampaignIDs(alice.address);
     expect(ids.length).to.equal(0);
