@@ -44,7 +44,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     DistributionManager.address
   );
 
-  await manager.setController(controller.address);
+  await manager.initialize(controller.address);
+  // await manager.setController(controller.address);
   await manager.setCommonNFTFactory(CommonNFTFactory.address);
   await manager.setLootboxFactory(LootboxFactory.address);
 
