@@ -94,7 +94,14 @@ contract DistributionManager is Initializable {
         commonNFTFactory = _commonNFTFactory;
     }
 
-    function setLootboxFactory(IDistributionFactory _lootboxFactory) external {
+
+    function setController(address _controller) external {
+        require(address(_controller) != address(0), "Controller should not be 0 address");
+
+        controller = _controller;
+    }
+
+    function setLootboxFactory(IDistributionFactoryLootbox _lootboxFactory) external {
         require(address(_lootboxFactory) != address(0), "LootboxFactory should not be 0 address");
 
         lootboxFactory = _lootboxFactory;
