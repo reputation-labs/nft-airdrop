@@ -55,10 +55,10 @@ contract CommonNFT is ERC1155Proxy {
         return false;
     }
 
-    function claim() public returns (bool) {
-        require(isClaimable(msg.sender), "You cannot claim this token");
+    function claim(address user) public returns (bool) {
+        require(isClaimable(user), "You cannot claim this token");
 
-        ERC1155Proxy.mint(msg.sender, 1, 1, "");
+        ERC1155Proxy.mint(user, 1, 1, "");
         return true;
     }
 

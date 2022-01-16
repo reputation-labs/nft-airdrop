@@ -71,7 +71,24 @@ describe("CommonNFT", function () {
     expect(balance).to.equal(1);
   });
 
-  it("alice claim", async function () {
+  it("alice claim without nft", async function () {
+    const balanceERC721 = await erc721NFT.balanceOf(alice.address);
+    expect(balanceERC721).to.equal(0);
+
+    // await erc721NFT.awardItem(alice.address, "IPFS://");
+
+    expect(await erc721NFT.balanceOf(alice.address)).to.equal(0);
+
+    expect(await nftContract.balanceOf(alice.address, 1)).to.equal(0);
+
+    await expect(
+      commonNFTController.connect(alice).claim(nftContract.address)
+    ).to.be.revertedWith("You cannot claim this token");
+
+    expect(await nftContract.balanceOf(alice.address, 1)).to.equal(0);
+  });
+
+  it("alice claim with nft", async function () {
     const balanceERC721 = await erc721NFT.balanceOf(alice.address);
     expect(balanceERC721).to.equal(0);
 
