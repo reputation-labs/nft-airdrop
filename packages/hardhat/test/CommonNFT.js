@@ -11,7 +11,6 @@ describe("CommonNFT TEST...", function () {
   let erc271Contract;
   let erc721NFT;
   let commonNFTController;
-  // quick fix to let gas reporter fetch data from gas station & coinmarketcap
   before(async function () {
     const CommonNFTControllerFactory = await ethers.getContractFactory(
       "CommonNFTController"
@@ -31,7 +30,7 @@ describe("CommonNFT TEST...", function () {
     const campaign = {
       campaignName: "Test campaignName",
       tokenURI: "https://www.example.com/tokenURI",
-      duration: 7,
+      endTime: 2222222222,
       appearance: 1,
       fightingPower: 1,
       level: 3,
@@ -54,7 +53,7 @@ describe("CommonNFT TEST...", function () {
   });
 
   it("getCurrentOwner", async function () {
-    const nftContractOwner = await nftContract.getCurrentOwner();
+    const nftContractOwner = await nftContract.owner();
     expect(nftContractOwner).to.equal(
       "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
     );

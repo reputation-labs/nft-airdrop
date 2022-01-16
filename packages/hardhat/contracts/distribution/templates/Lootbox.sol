@@ -40,7 +40,8 @@ contract Lootbox is ERC1155Proxy {
         data = _data;
         currentCampaignId = 1;
         owner = msg.sender;
-        initialize(_data.tokenURI, _controller);
+        initialize(_data.tokenURI);
+        setController(_controller);
     }
 
     function isClaimable(address user) public view returns (bool) {

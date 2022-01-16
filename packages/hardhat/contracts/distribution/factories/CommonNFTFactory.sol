@@ -8,7 +8,8 @@ contract CommonNFTFactory {
         uint index,
         string memory campaignName,
         string memory tokenURI,
-        uint8 duration,
+
+        uint256 endTime,
         uint8 appearance,
         uint8 fightingPower,
         uint8 level,
@@ -18,7 +19,8 @@ contract CommonNFTFactory {
         CommonNFT.Campaign memory campaign;
         campaign.campaignName = campaignName;
         campaign.tokenURI=tokenURI;
-        campaign.duration=duration;
+
+        campaign.endTime = endTime;
         campaign.appearance=appearance;
         campaign.fightingPower=fightingPower;
         campaign.level=level;

@@ -17,7 +17,8 @@ contract DistributionManager {
     function launchCampaignCommonNFT(
         string memory campaignName,
         string memory tokenURI,
-        uint8 duration,
+
+        uint8 duration,   // days
         uint8 appearance,
         uint8 fightingPower,
         uint8 level,
@@ -32,7 +33,7 @@ contract DistributionManager {
             commonNFTAmount,
             campaignName,
             tokenURI,
-            duration,
+            block.timestamp + duration * 24 * 3600,
             appearance,
             fightingPower,
             level,
