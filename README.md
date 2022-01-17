@@ -22,12 +22,13 @@ NFT is a representation of reputaion, so you can use NFT Airdrop to:
 ## Simple guild 1-2-3
 
 1. Launch a airdrop
+2. User claim
+3. View NFTs
+
 ![2022-01-17 at 2 19 AM](https://user-images.githubusercontent.com/1963646/149700544-e096dcf4-a7ae-4c52-aba4-29d25ec15e31.png)
 
-2. User claim
 ![2022-01-17 at 2 18 AM](https://user-images.githubusercontent.com/1963646/149701564-4ba2a9df-e268-4b00-9e1d-74a0a35e5990.png)
 
-3. View NFTs
 ![2022-01-17 at 2 18 AM](https://user-images.githubusercontent.com/1963646/149701655-bab3c60e-40fd-4102-a639-e0ba4a8dea32.png)
 
 
